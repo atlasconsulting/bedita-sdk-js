@@ -1,0 +1,11 @@
+# Dependency directory
+node_modules
+
+# Coverage reports
+coverage
+
+# Ignore built ts files
+dist/**/*
+
+# other
+.nyc_output
