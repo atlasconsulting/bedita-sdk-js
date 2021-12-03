@@ -14,10 +14,10 @@ export default class AuthInterceptor extends RequestInterceptor {
      */
     public requestHandler(config: AxiosRequestConfig) {
         const accessToken = this.beditaClient.getStorageService().accessToken;
-        if (accessToken) {
+        if (accessToken && !config.headers.Authorization) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
-        return config;
+        return Promise.resolve(config);
     }
 }

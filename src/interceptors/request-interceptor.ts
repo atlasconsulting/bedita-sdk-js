@@ -19,11 +19,11 @@ export interface RequestInterceptorInterface {
      *
      * @param error The axios error
      */
-    errorHandler(error: any): any;
+    errorHandler(error: any): Promise<any>;
 }
 
 /**
- * Base class useful to implments a request interceptor.
+ * Base class to implement request interceptors.
  */
 export default abstract class RequestInterceptor implements RequestInterceptorInterface {
 
@@ -51,7 +51,7 @@ export default abstract class RequestInterceptor implements RequestInterceptorIn
     /**
      * @inheritdoc
      */
-    public errorHandler(error: any): any {
+    public errorHandler(error: any): Promise<any> {
         return Promise.reject(error);
     }
 }

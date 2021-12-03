@@ -8,17 +8,17 @@ export default class StorageService {
     /**
      * The storage name. Used to prefix localStorage var
      */
-    #name: string;
+    private name: string;
 
     /**
      * The access token key
      */
-    readonly ACCESS_TOKEN_KEY: string;
+    readonly ACCESS_TOKEN_KEY: string = 'access_token';
 
     /**
      * The refresh token key
      */
-    readonly REFRESH_TOKEN_KEY: string;
+    readonly REFRESH_TOKEN_KEY: string = 'refresh_token';
 
     /**
      * Csontructor.
@@ -27,45 +27,53 @@ export default class StorageService {
      * @param name The name used as prefix for store in localStorage
      */
     public constructor(name: string = 'bedita') {
-        this.ACCESS_TOKEN_KEY = `${name}.access_token`;
-        this.REFRESH_TOKEN_KEY = `${name}.refresh_token`;
-        this.#name = name;
+        this.name = name;
     }
 
     /**
      * Getter for access token.
      */
     get accessToken(): string|null {
-        return localStorage.getItem(this.ACCESS_TOKEN_KEY);
+        return this.get(this.ACCESS_TOKEN_KEY);
     }
 
     /**
      * Setter for access token.
      */
     set accessToken(value: string) {
-        localStorage.setItem(this.ACCESS_TOKEN_KEY, value);
+        this.set(this.ACCESS_TOKEN_KEY, value);
     }
 
     /**
      * Getter for refresh token.
      */
     get refreshToken(): string|null {
-        return localStorage.getItem(this.REFRESH_TOKEN_KEY);
+        return this.get(this.REFRESH_TOKEN_KEY);
     }
 
     /**
      * Setter for refresh token.
      */
     set refreshToken(value: string) {
-        localStorage.setItem(this.REFRESH_TOKEN_KEY, value);
+        this.set(this.REFRESH_TOKEN_KEY, value);
     }
 
     /**
      * Remove all tokens.
+     * Return this for chainability.
      */
-    public clearTokens() {
-        localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-        localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    public clearTokens(): StorageService {
+        return this.remove(this.ACCESS_TOKEN_KEY)
+            .remove(this.REFRESH_TOKEN_KEY);
+    }
+
+    /**
+     * Get namespaced key.
+     *
+     * @param key The key.
+     */
+    protected getNamespacedKey(key: string): string {
+        return `${this.name}.${key}`;
     }
 
     /**
@@ -74,7 +82,7 @@ export default class StorageService {
      * @todo JSON parse if value a re json stringified
      */
     public get(key: string): any {
-        return localStorage.getItem(`${this.#name}.${key}`);
+        return localStorage.getItem(this.getNamespacedKey(key));
     }
 
     /**
@@ -87,7 +95,18 @@ export default class StorageService {
      * @todo JSON stringify value that represents objects
      */
     public set(key: string, value: string): StorageService {
-        localStorage.setItem(`${this.#name}.${key}`, value);
+        localStorage.setItem(this.getNamespacedKey(key), value);
+
+        return this;
+    }
+
+    /**
+     * Remove a key from the storage.
+     *
+     * @param key The key to remove
+     */
+    public remove(key: string): StorageService {
+        localStorage.removeItem(this.getNamespacedKey(key));
 
         return this;
     }

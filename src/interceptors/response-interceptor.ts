@@ -1,4 +1,4 @@
-import { BEditaApiClient } from '../bedita-api-client';
+import { BEditaApiClient, BEditaClientResponse } from '../bedita-api-client';
 import { AxiosResponse } from 'axios';
 
 /**
@@ -19,11 +19,11 @@ export interface ResponseInterceptorInterface {
      *
      * @param error The axios error
      */
-    errorHandler(error: any): any;
+    errorHandler(error: any): Promise<any>;
 }
 
 /**
- * Base class useful to implments a request interceptor.
+ * Base class to implement response interceptors.
  */
 export default abstract class ResponseInterceptor implements ResponseInterceptorInterface {
 
@@ -44,14 +44,14 @@ export default abstract class ResponseInterceptor implements ResponseInterceptor
     /**
      * @inheritdoc
      */
-    public responseHandler(response: AxiosResponse): AxiosResponse<any> | Promise<AxiosResponse<any>> {
-        return response;
+    public responseHandler(response: AxiosResponse): Promise<BEditaClientResponse<any> | AxiosResponse<any>> {
+        return Promise.resolve(response);
     }
 
     /**
      * @inheritdoc
      */
-    public errorHandler(error: any): any {
+    public errorHandler(error: any): Promise<any> {
         return Promise.reject(error);
     }
 }
