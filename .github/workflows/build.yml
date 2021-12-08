@@ -25,5 +25,8 @@ jobs:
       - name: Build
         run: yarn build
 
+  test:
+    needs: build
+    steps:
       - name: Test
         run: yarn test
