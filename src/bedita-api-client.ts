@@ -113,6 +113,7 @@ export class BEditaApiClient {
      * and the keys are the corresponding index in Axios.
      */
     private responseInterceptorsMap: Map<string, number> = new Map();
+
     /**
      * Constructor.
      *
@@ -122,7 +123,7 @@ export class BEditaApiClient {
         if (!config.name) {
             config.name = 'bedita';
         }
-        this.config = config;
+        this.config = { ...config };
 
         const axiosConfig: AxiosRequestConfig = {
             baseURL: config.baseUrl,
