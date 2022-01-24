@@ -9,7 +9,7 @@ export default class ApiProvider {
     /**
      * A map of clients created.
      */
-    private static registry: { [s: string]: BEditaApiClient } = {};
+    static #registry: { [s: string]: BEditaApiClient } = {};
 
     /**
      * Get an API client already created or try to create new one.
@@ -19,8 +19,8 @@ export default class ApiProvider {
      * @param config The configuration to use for create new client.
      */
     public static get(name: string, config?: ApiClientConfig): BEditaApiClient {
-        if (this.registry[name]) {
-            return this.registry[name];
+        if (this.#registry[name]) {
+            return this.#registry[name];
         }
 
         if (!config || !config.baseUrl) {
@@ -28,9 +28,9 @@ export default class ApiProvider {
         }
 
         config.name = name;
-        this.registry[name] = new BEditaApiClient(config);
+        this.#registry[name] = new BEditaApiClient(config);
 
-        return this.registry[name];
+        return this.#registry[name];
     }
 
     /**
@@ -39,10 +39,10 @@ export default class ApiProvider {
      * @param name The name to look for in the registry
      */
     public static remove(name: string): void {
-        if (!this.registry[name]) {
+        if (!this.#registry[name]) {
             return;
         }
 
-        delete this.registry[name];
+        delete this.#registry[name];
     }
 }

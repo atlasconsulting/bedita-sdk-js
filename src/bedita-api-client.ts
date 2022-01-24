@@ -13,12 +13,6 @@ import { ResponseInterceptorInterface } from './interceptors/response-intercepto
  * - baseUrl: the BEdita API base URL
  * - apiKey: the API KEY to use (optional)
  * - name: the name of the client instance (optional, default 'bedita')
- *
- * @todo: use ECMAScript's private fields https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#-ecmascript-private-fields
- *        Due to a bug using tslib and importHelpers set true https://github.com/microsoft/TypeScript/issues/36841
- *        we cannot use ECMAScript's private properties using module ESNext.
- *        Since tslib and importHelpers remove code duplication and overhead on runtime
- *        we use for now `private` modifier.
  */
 export interface ApiClientConfig {
     baseUrl: string,
@@ -86,17 +80,17 @@ export class BEditaApiClient {
     /**
      * The Api client configuration.
      */
-    private config: ApiClientConfig;
+    #config: ApiClientConfig;
 
     /**
      * Keep The axios instance.
      */
-    private axiosInstance: AxiosInstance;
+    #axiosInstance: AxiosInstance;
 
     /**
      * Keep the token service instance.
      */
-    private storageService: StorageService;
+    #storageService: StorageService;
 
     /**
      * Map of request interceptors added to avoid double addition.
@@ -104,7 +98,7 @@ export class BEditaApiClient {
      * The values are the interceptor contructor names
      * and the keys are the corresponding index in Axios.
      */
-    private requestInterceptorsMap: Map<string, number> = new Map();
+    #requestInterceptorsMap: Map<string, number> = new Map();
 
     /**
      * Map of response interceptors added to avoid double addition.
@@ -112,7 +106,7 @@ export class BEditaApiClient {
      * The values are the interceptor contructor names
      * and the keys are the corresponding index in Axios.
      */
-    private responseInterceptorsMap: Map<string, number> = new Map();
+    #responseInterceptorsMap: Map<string, number> = new Map();
 
     /**
      * Constructor.
@@ -123,7 +117,7 @@ export class BEditaApiClient {
         if (!config.name) {
             config.name = 'bedita';
         }
-        this.config = { ...config };
+        this.#config = { ...config };
 
         const axiosConfig: AxiosRequestConfig = {
             baseURL: config.baseUrl,
@@ -136,8 +130,8 @@ export class BEditaApiClient {
             axiosConfig.headers['X-Api-Key'] = config.apiKey;
         }
 
-        this.axiosInstance = axios.create(axiosConfig);
-        this.storageService = new StorageService(config.name);
+        this.#axiosInstance = axios.create(axiosConfig);
+        this.#storageService = new StorageService(config.name);
 
         this.addDefaultInterceptors();
     }
@@ -148,10 +142,10 @@ export class BEditaApiClient {
      */
     public getConfig(key?: string): ApiClientConfig | any {
         if (key) {
-            return this.config[key];
+            return this.#config[key];
         }
 
-        return this.config;
+        return this.#config;
     }
 
     /**
@@ -171,28 +165,28 @@ export class BEditaApiClient {
     public addInterceptor(interceptor: RequestInterceptorInterface | ResponseInterceptorInterface): number {
         const name = interceptor.constructor.name;
         if ('requestHandler' in interceptor) {
-            if (this.requestInterceptorsMap.has(name)) {
-                return this.requestInterceptorsMap.get(name);
+            if (this.#requestInterceptorsMap.has(name)) {
+                return this.#requestInterceptorsMap.get(name);
             }
 
-            const index = this.axiosInstance.interceptors.request.use(
+            const index = this.#axiosInstance.interceptors.request.use(
                 interceptor.requestHandler.bind(interceptor),
                 interceptor.errorHandler.bind(interceptor)
             );
-            this.requestInterceptorsMap.set(name, index);
+            this.#requestInterceptorsMap.set(name, index);
 
             return index;
         }
 
-        if (this.responseInterceptorsMap.has(name)) {
-            return this.responseInterceptorsMap.get(name);
+        if (this.#responseInterceptorsMap.has(name)) {
+            return this.#responseInterceptorsMap.get(name);
         }
 
-        const index = this.axiosInstance.interceptors.response.use(
+        const index = this.#axiosInstance.interceptors.response.use(
             interceptor.responseHandler.bind(interceptor),
             interceptor.errorHandler.bind(interceptor)
         );
-        this.responseInterceptorsMap.set(name, index);
+        this.#responseInterceptorsMap.set(name, index);
 
         return index;
     }
@@ -205,38 +199,38 @@ export class BEditaApiClient {
      */
     public removeInterceptor(id: number, type: 'request' | 'response'): void {
         if (type === 'request') {
-            for (let item of this.requestInterceptorsMap) {
+            for (let item of this.#requestInterceptorsMap) {
                 if (item[1] === id) {
-                    this.requestInterceptorsMap.delete(item[0]);
+                    this.#requestInterceptorsMap.delete(item[0]);
                     break;
                 }
             }
 
-            return this.axiosInstance.interceptors.request.eject(id);
+            return this.#axiosInstance.interceptors.request.eject(id);
         }
 
-        for (let item of this.responseInterceptorsMap) {
+        for (let item of this.#responseInterceptorsMap) {
             if (item[1] === id) {
-                this.responseInterceptorsMap.delete(item[0]);
+                this.#responseInterceptorsMap.delete(item[0]);
                 break;
             }
         }
 
-        return this.axiosInstance.interceptors.response.eject(id);
+        return this.#axiosInstance.interceptors.response.eject(id);
     }
 
     /**
      * Return the Axios instance.
      */
     public getHttpClient(): AxiosInstance {
-        return this.axiosInstance;
+        return this.#axiosInstance;
     }
 
     /**
      * Return the token service.
      */
     public getStorageService(): StorageService {
-        return this.storageService;
+        return this.#storageService;
     }
 
     /**
@@ -262,7 +256,7 @@ export class BEditaApiClient {
 
             delete config.responseInterceptors;
         }
-        const response = await this.axiosInstance.request(config);
+        const response = await this.#axiosInstance.request(config);
 
         reqIntercetorsIds.forEach(id => this.removeInterceptor(id, 'request'));
         respInterceptorsIds.forEach(id => this.removeInterceptor(id, 'response'));
@@ -339,15 +333,15 @@ export class BEditaApiClient {
      * @param password The password
      */
     public async authenticate(username: string, password: string): Promise<BEditaClientResponse<any>> {
-        this.storageService.clearTokens().remove('user');
+        this.#storageService.clearTokens().remove('user');
         const data = { username, password };
         const response = await this.post('/auth', data)
         const tokens = response.data && response.data.meta || {};
         if (!tokens.jwt || !tokens.renew) {
             return Promise.reject('Something was wrong with response data.');
         }
-        this.storageService.accessToken = tokens.jwt;
-        this.storageService.refreshToken = tokens.renew;
+        this.#storageService.accessToken = tokens.jwt;
+        this.#storageService.refreshToken = tokens.renew;
 
         return response;
     }
@@ -364,7 +358,7 @@ export class BEditaApiClient {
             }
         );
 
-        this.storageService.set('user', JSON.stringify(response.formattedData));
+        this.#storageService.set('user', JSON.stringify(response.formattedData));
 
         return response;
     }
@@ -373,7 +367,7 @@ export class BEditaApiClient {
      * Renew access and refresh tokens.
      */
     public async renewTokens(): Promise<BEditaClientResponse<any>> {
-        const refreshToken = this.storageService.refreshToken;
+        const refreshToken = this.#storageService.refreshToken;
         if (!refreshToken) {
             return Promise.reject('Missing refresh token.');
         }
@@ -390,12 +384,12 @@ export class BEditaApiClient {
             if (!tokens.jwt || !tokens.renew) {
                 throw new Error('Something was wrong with response data.');
             }
-            this.storageService.accessToken = tokens.jwt;
-            this.storageService.refreshToken = tokens.renew;
+            this.#storageService.accessToken = tokens.jwt;
+            this.#storageService.refreshToken = tokens.renew;
 
             return response;
         } catch (error) {
-            this.storageService.clearTokens().remove('user');
+            this.#storageService.clearTokens().remove('user');
             throw error;
         }
     }

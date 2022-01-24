@@ -8,7 +8,7 @@ export default class StorageService {
     /**
      * The storage name. Used to prefix localStorage var
      */
-    private name: string;
+    #name: string;
 
     /**
      * The access token key
@@ -27,7 +27,7 @@ export default class StorageService {
      * @param name The name used as prefix for store in localStorage
      */
     public constructor(name: string = 'bedita') {
-        this.name = name;
+        this.#name = name;
     }
 
     /**
@@ -73,7 +73,7 @@ export default class StorageService {
      * @param key The key.
      */
     protected getNamespacedKey(key: string): string {
-        return `${this.name}.${key}`;
+        return `${this.#name}.${key}`;
     }
 
     /**
