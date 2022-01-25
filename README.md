@@ -1,11 +1,9 @@
 # BEdita API SDK
 
 A simple JavaScript SDK for BEdita API based on [axios](https://axios-http.com).
-It is fully written in Typescript and then compiled to JavaScript so you can use it as you prefer.
+It is fully written in Typescript and then compiled to JavaScript. Use it as you prefer.
 
 ## Install
-
-@todo
 
 ```bash
 yarn add @atlas/bedita-sdk
@@ -44,7 +42,7 @@ client.authenticate('username', 'password')
     })
 ```
 
-After having configured a client you can get it everywhere
+After having configured a client you can get that instance everywhere
 
 ```js
 import ApiProvider from '@atlas/bedita-sdk';
@@ -69,7 +67,7 @@ The client take advantage of [Axios Interceptors](https://axios-http.com/docs/in
 A set of default interceptor are always used:
 
 * `AuthInterceptor` is responsible for adding `Authorization` header if needed
-* `ContentTypeInterceptor` that set a default content type if no one is passed
+* `ContentTypeInterceptor` set default content type if no one is passed
 * `RefreshAuthInterceptor` is responsible for refreshing the access token when expired
 
 An interceptor can be added to the client or to a request.
@@ -95,11 +93,11 @@ A response interceptor **must** implements `ResponseInterceptorInterface`.
 
 * run docker image of BEdita API as
 
- ```bash
- docker run -p 8090:80 --env BEDITA_ADMIN_USR=admin --env BEDITA_ADMIN_PWD=admin --env BEDITA_API_KEY=1234567890 bedita/bedita:latest
- ```
+  ```bash
+  docker run -p 8090:80 --env BEDITA_ADMIN_USR=admin --env BEDITA_ADMIN_PWD=admin --env BEDITA_API_KEY=1234567890 bedita/bedita:latest
+  ```
 
- Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.6.1`.
+  Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.6.1`.
 
 * run test with `yarn test`
 * launch `yarn coverage` if you want a coverage report
