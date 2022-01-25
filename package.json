@@ -1,14 +1,16 @@
 {
-    "name": "bedita-js-sdk",
+    "name": "@atlas/bedita-sdk",
     "version": "0.1.0",
     "description": "A simple BEdita SDK based on axios",
-    "main": "index.js",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": ["dist"],
     "scripts": {
         "build": "./node_modules/.bin/tsc",
         "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts tests/**/*.test.ts",
         "coverage": "nyc yarn run test"
     },
-    "author": "",
+    "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
     "license": "MIT",
     "dependencies": {
         "axios": "^0.19.2",

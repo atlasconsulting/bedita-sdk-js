@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError }  from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse }  from 'axios';
 import AuthInterceptor from './interceptors/auth-interceptor';
 import RefreshAuthInterceptor from './interceptors/refresh-auth-interceptor';
 import StorageService from './services/storage-service';
