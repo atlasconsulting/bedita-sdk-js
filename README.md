@@ -14,7 +14,7 @@ yarn add @atlas/bedita-sdk
 The following code uses `Promise` but you can take advantage of `async` functions and `await` operator.
 
 ```js
-import ApiProvider from '@atlas/bedita-sdk';
+import { ApiProvider } from '@atlas/bedita-sdk';
 
 // The first argument is the name of the client
 // used to register that specific client
@@ -45,7 +45,7 @@ client.authenticate('username', 'password')
 After having configured a client you can get that instance everywhere
 
 ```js
-import ApiProvider from '@atlas/bedita-sdk';
+import { ApiProvider } from '@atlas/bedita-sdk';
 
 // get the previous registered client
 const client = ApiProvider.get('bedita');
@@ -74,8 +74,7 @@ An interceptor can be added to the client or to a request.
 When added to the client it will be used unless it was removed.
 
 ```js
-import ApiProvider from '@atlas/bedita-sdk';
-import MapIncludedInterceptor from '@atlas/bedita-sdk';
+import { ApiProvider, MapIncludedInterceptor } from '@atlas/bedita-sdk';
 
 const client = ApiProvider.get('bedita');
 // Map included data inside the relationships
