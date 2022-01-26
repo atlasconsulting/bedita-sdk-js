@@ -58,7 +58,7 @@ client.getUserAuth()
     });
 ```
 
-In this way it is possible to instantiate different BEdita API clients distingued by name.
+In this way it is possible to instantiate different BEdita API clients distinguished by name.
 
 ### Interceptors
 
