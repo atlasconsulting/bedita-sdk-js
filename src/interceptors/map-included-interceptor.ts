@@ -39,7 +39,8 @@ export default class MapIncludedInterceptor implements ResponseInterceptorInterf
      */
     public responseHandler(response: AxiosResponse): Promise<BEditaClientResponse<any>> {
         const responseData: ApiResponseBodyOk = response.data;
-        let { data, included = false } = responseData;
+        let { data } = responseData;
+        const { included = false } = responseData;
 
         if (included !== false && included.length > 0) {
             data = this.prepareData(data, included);
