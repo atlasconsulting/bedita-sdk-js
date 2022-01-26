@@ -4,16 +4,22 @@
     "description": "A simple BEdita SDK based on axios",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "./node_modules/.bin/tsc",
         "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts tests/**/*.test.ts",
-        "coverage": "nyc yarn run test"
+        "coverage": "nyc yarn run test",
+        "lint": "eslint . --ext .ts"
     },
     "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
     "license": "MIT",
     "dependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.10.1",
+        "@typescript-eslint/parser": "^5.10.1",
         "axios": "^0.19.2",
+        "eslint": "^8.7.0",
         "tslib": "^1.11.1"
     },
     "devDependencies": {

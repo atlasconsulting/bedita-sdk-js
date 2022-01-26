@@ -58,3 +58,6 @@ jobs:
 
       - name: Test
         run: yarn test
+
+      - name: Linter
+        run: yarn lint
