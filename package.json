@@ -8,7 +8,8 @@
     "scripts": {
         "build": "./node_modules/.bin/tsc",
         "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts tests/**/*.test.ts",
-        "coverage": "nyc yarn run test"
+        "coverage": "nyc yarn run test",
+        "lint": "tslint -c tslint.json 'src/**/*{.ts,.tsx}'"
     },
     "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
     "license": "MIT",

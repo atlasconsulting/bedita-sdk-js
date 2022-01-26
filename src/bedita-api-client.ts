@@ -23,7 +23,7 @@ export interface ApiClientConfig {
 /**
  * Interface of JSON API resource object
  *
- * @see https://jsonapi.org/format/#document-resource-objects
+ * see https://jsonapi.org/format/#document-resource-objects
  */
 export interface JsonApiResourceObject {
     type: string,
@@ -169,13 +169,13 @@ export class BEditaApiClient {
                 return this.#requestInterceptorsMap.get(name);
             }
 
-            const index = this.#axiosInstance.interceptors.request.use(
+            const idx = this.#axiosInstance.interceptors.request.use(
                 interceptor.requestHandler.bind(interceptor),
                 interceptor.errorHandler.bind(interceptor)
             );
-            this.#requestInterceptorsMap.set(name, index);
+            this.#requestInterceptorsMap.set(name, idx);
 
-            return index;
+            return idx;
         }
 
         if (this.#responseInterceptorsMap.has(name)) {
@@ -199,7 +199,7 @@ export class BEditaApiClient {
      */
     public removeInterceptor(id: number, type: 'request' | 'response'): void {
         if (type === 'request') {
-            for (let item of this.#requestInterceptorsMap) {
+            for (const item of this.#requestInterceptorsMap) {
                 if (item[1] === id) {
                     this.#requestInterceptorsMap.delete(item[0]);
                     break;
@@ -209,7 +209,7 @@ export class BEditaApiClient {
             return this.#axiosInstance.interceptors.request.eject(id);
         }
 
-        for (let item of this.#responseInterceptorsMap) {
+        for (const item of this.#responseInterceptorsMap) {
             if (item[1] === id) {
                 this.#responseInterceptorsMap.delete(item[0]);
                 break;

@@ -1,5 +1,5 @@
-import ResponseInterceptor from "./response-interceptor"
-import { AxiosResponse } from "axios";
+import ResponseInterceptor from './response-interceptor'
+import { AxiosResponse } from 'axios';
 
 /**
  * If access token is not valid try to renew authentication

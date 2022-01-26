@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from 'axios';
 import { BEditaApiClient } from '../bedita-api-client';
 
 /**
@@ -35,7 +35,7 @@ export default abstract class RequestInterceptor implements RequestInterceptorIn
     /**
      * Constructor.
      *
-     * @param axiosInstance
+     * @param beditaClient The bedita api client
      */
     constructor(beditaClient: BEditaApiClient) {
         this.beditaClient = beditaClient;
