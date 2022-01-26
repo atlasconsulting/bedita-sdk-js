@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from 'axios';
 import { BEditaApiClient } from '../bedita-api-client';
 
 /**
