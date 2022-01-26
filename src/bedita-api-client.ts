@@ -199,7 +199,7 @@ export class BEditaApiClient {
      */
     public removeInterceptor(id: number, type: 'request' | 'response'): void {
         if (type === 'request') {
-            for (let item of this.#requestInterceptorsMap) {
+            for (const item of this.#requestInterceptorsMap) {
                 if (item[1] === id) {
                     this.#requestInterceptorsMap.delete(item[0]);
                     break;
@@ -209,7 +209,7 @@ export class BEditaApiClient {
             return this.#axiosInstance.interceptors.request.eject(id);
         }
 
-        for (let item of this.#responseInterceptorsMap) {
+        for (const item of this.#responseInterceptorsMap) {
             if (item[1] === id) {
                 this.#responseInterceptorsMap.delete(item[0]);
                 break;
