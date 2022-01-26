@@ -100,3 +100,11 @@ A response interceptor **must** implements `ResponseInterceptorInterface`.
 
 * run test with `yarn test`
 * launch `yarn coverage` if you want a coverage report
+
+### Linter
+
+* run eslint as follows:
+
+  ```bash
+  yarn lint
+  ```
