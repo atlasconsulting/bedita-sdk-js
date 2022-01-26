@@ -23,7 +23,7 @@ export interface ApiClientConfig {
 /**
  * Interface of JSON API resource object
  *
- * @see https://jsonapi.org/format/#document-resource-objects
+ * see https://jsonapi.org/format/#document-resource-objects
  */
 export interface JsonApiResourceObject {
     type: string,

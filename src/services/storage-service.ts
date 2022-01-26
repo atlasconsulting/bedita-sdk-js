@@ -26,7 +26,7 @@ export default class StorageService {
      *
      * @param name The name used as prefix for store in localStorage
      */
-    public constructor(name = 'bedita') {
+    public constructor(name: string = 'bedita') {
         this.#name = name;
     }
 

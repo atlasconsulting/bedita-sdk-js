@@ -35,7 +35,7 @@ export default abstract class ResponseInterceptor implements ResponseInterceptor
     /**
      * Constructor.
      *
-     * @param axiosInstance
+     * @param beditaClient The bedita api client
      */
     constructor(beditaClient: BEditaApiClient) {
         this.beditaClient = beditaClient;

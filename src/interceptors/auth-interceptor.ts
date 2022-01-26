@@ -10,7 +10,7 @@ export default class AuthInterceptor extends RequestInterceptor {
     /**
      * If present it adds access token to Authorization header.
      *
-     * @param config
+     * @param config The axios request config
      */
     public requestHandler(config: AxiosRequestConfig) {
         const accessToken = this.beditaClient.getStorageService().accessToken;

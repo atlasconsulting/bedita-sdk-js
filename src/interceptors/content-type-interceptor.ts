@@ -15,7 +15,7 @@ export default class ContentTypeInterceptor extends RequestInterceptor {
     /**
      * If missing from headers and the request has body then add json content type.
      *
-     * @param config
+     * @param config The axios request config
      */
     public requestHandler(config: AxiosRequestConfig) {
         if (config.data) {
