@@ -169,13 +169,13 @@ export class BEditaApiClient {
                 return this.#requestInterceptorsMap.get(name);
             }
 
-            const index = this.#axiosInstance.interceptors.request.use(
+            const idx = this.#axiosInstance.interceptors.request.use(
                 interceptor.requestHandler.bind(interceptor),
                 interceptor.errorHandler.bind(interceptor)
             );
-            this.#requestInterceptorsMap.set(name, index);
+            this.#requestInterceptorsMap.set(name, idx);
 
-            return index;
+            return idx;
         }
 
         if (this.#responseInterceptorsMap.has(name)) {
