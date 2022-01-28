@@ -22,6 +22,11 @@ jobs:
       - name: Build
         run: yarn build
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: bedita-sdk
+          path: dist
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -56,8 +61,33 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Linter
+        run: yarn lint
+
       - name: Test
         run: yarn test
 
-      - name: Linter
-        run: yarn lint
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: bedita-sdk
+          path: dist
+
+      - uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 19
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
