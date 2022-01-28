@@ -14,7 +14,7 @@ yarn add @atlas/bedita-sdk
 The following code uses `Promise` but you can take advantage of `async` functions and `await` operator.
 
 ```js
-import { ApiProvider } from '@atlas/bedita-sdk';
+import { ApiProvider } from '@atlasconsulting/bedita-sdk';
 
 // The first argument is the name of the client
 // used to register that specific client
