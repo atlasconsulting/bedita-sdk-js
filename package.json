@@ -19,6 +19,9 @@
     },
     "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
     "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
     "dependencies": {
         "axios": "^0.19.2",
         "tslib": "^1.11.1"
