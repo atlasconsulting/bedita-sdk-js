@@ -103,7 +103,7 @@ A response interceptor **must** implements `ResponseInterceptorInterface`.
 
 ### Linter
 
-* run tslint as follows:
+* run eslint as follows:
 
   ```bash
   yarn lint
