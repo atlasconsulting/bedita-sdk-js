@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.0.0...v1.1.0) (2022-01-31)
+
+
+### Features
+
+* update main dependencies ([a1d8145](https://github.com/atlasconsulting/bedita-sdk-js/commit/a1d8145cb76283c74fcfc6dc0b3bdd0714e0470f))
+
 # 1.0.0 (2022-01-28)
 
 
