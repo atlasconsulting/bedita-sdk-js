@@ -8,7 +8,8 @@
         "declaration": true,
         "outDir": "./dist",
         "sourceMap": true,
-        "target": "es2015"
+        "target": "es2015",
+        "importHelpers": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
