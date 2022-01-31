@@ -21,12 +21,12 @@ export default class StorageService {
     readonly REFRESH_TOKEN_KEY: string = 'refresh_token';
 
     /**
-     * Csontructor.
+     * Constructor.
      * It sets the access token and refresh token keys.
      *
      * @param name The name used as prefix for store in localStorage
      */
-    public constructor(name: string = 'bedita') {
+    public constructor(name = 'bedita') {
         this.#name = name;
     }
 
