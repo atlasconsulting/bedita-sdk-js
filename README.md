@@ -6,7 +6,7 @@ It is fully written in Typescript and then compiled to JavaScript. Use it as you
 ## Install
 
 ```bash
-yarn add @atlas/bedita-sdk
+yarn add @atlasconsulting/bedita-sdk
 ```
 
 ## Getting started
@@ -45,7 +45,7 @@ client.authenticate('username', 'password')
 After having configured a client you can get that instance everywhere
 
 ```js
-import { ApiProvider } from '@atlas/bedita-sdk';
+import { ApiProvider } from '@atlasconsulting/bedita-sdk';
 
 // get the previous registered client
 const client = ApiProvider.get('bedita');
@@ -74,7 +74,7 @@ An interceptor can be added to the client or to a request.
 When added to the client it will be used unless it was removed.
 
 ```js
-import { ApiProvider, MapIncludedInterceptor } from '@atlas/bedita-sdk';
+import { ApiProvider, MapIncludedInterceptor } from '@atlasconsulting/bedita-sdk';
 
 const client = ApiProvider.get('bedita');
 // Map included data inside the relationships
