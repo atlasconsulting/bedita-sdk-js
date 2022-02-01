@@ -30,7 +30,7 @@ client.get('/documents')
 
 // Authenticate user.
 // After authentication the Authorization header will be added to every request.
-// The client take cares of JWT token renew too.
+// The client takes care of JWT token renew too.
 client.authenticate('username', 'password')
     .then(response => {
         // Use save() to create or update an object.
@@ -53,7 +53,7 @@ const client = ApiProvider.get('bedita');
 // get user data previously authenticated
 client.getUserAuth()
     .then(response => {
-        // the formattedData property contain a modified response data
+        // the formattedData property contains a modified response data
         console.log(response.data.formattedData);
     });
 ```
@@ -62,7 +62,7 @@ In this way it is possible to instantiate different BEdita API clients distingui
 
 ### Interceptors
 
-The client take advantage of [Axios Interceptors](https://axios-http.com/docs/interceptors) to intercept request and response before they are handled by `then` or `catch`.
+The client takes advantage of [Axios Interceptors](https://axios-http.com/docs/interceptors) to intercept request and response before they are handled by `then` or `catch`.
 
 A set of default interceptor are always used:
 
