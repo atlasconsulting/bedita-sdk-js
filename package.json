@@ -15,7 +15,8 @@
         "build": "./node_modules/.bin/tsc",
         "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts tests/**/*.test.ts",
         "coverage": "nyc yarn run test",
-        "lint": "eslint . --ext .ts"
+        "lint": "eslint . --ext .ts",
+        "prepare": "husky install"
     },
     "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
     "license": "MIT",
@@ -27,6 +28,8 @@
         "tslib": "^2.3.1"
     },
     "devDependencies": {
+        "@commitlint/cli": "^16.1.0",
+        "@commitlint/config-angular": "^16.0.0",
         "@istanbuljs/nyc-config-typescript": "^1.0.2",
         "@types/chai": "^4.3.0",
         "@types/mocha": "^9.1.0",
@@ -35,6 +38,7 @@
         "@typescript-eslint/parser": "^5.10.1",
         "chai": "^4.3.6",
         "eslint": "^8.8.0",
+        "husky": "^7.0.0",
         "mocha": "^9.2.0",
         "mock-local-storage": "^1.1.19",
         "nyc": "^15.1.0",
