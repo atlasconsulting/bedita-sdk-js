@@ -5,8 +5,8 @@ describe('BEditaApiClient', function() {
 
     it('init default name', function() {
         const client = new BEditaApiClient({ baseUrl: 'https://example.com'});
-        expect('bedita', client.getConfig('name'));
-        expect('https://example.com', client.getConfig('baseUrl'));
+        expect('bedita').to.equal(client.getConfig('name'));
+        expect('https://example.com').to.equal(client.getConfig('baseUrl'));
     });
 
     it('init custom name', function() {
@@ -14,8 +14,8 @@ describe('BEditaApiClient', function() {
             baseUrl: 'https://example.com',
             name: 'gustavo-api'
         });
-        expect('gustavo-api', client.getConfig('name'));
-        expect('https://example.com', client.getConfig('baseUrl'));
+        expect('gustavo-api').to.equal(client.getConfig('name'));
+        expect('https://example.com').to.equal(client.getConfig('baseUrl'));
     });
 
     it('test getConfig()', function() {
