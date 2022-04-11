@@ -1,3 +1,4 @@
+/* c8 ignore start */
 export { default as ApiProvider } from './api-provider';
 export * from './bedita-api-client';
 export { default as AuthInterceptor } from './interceptors/auth-interceptor';
@@ -8,3 +9,4 @@ export { default as RefreshAuthInterceptor } from './interceptors/refresh-auth-i
 export { default as RequestInterceptor, RequestInterceptorInterface } from './interceptors/request-interceptor';
 export { default as ResponseInterceptor, ResponseInterceptorInterface } from './interceptors/response-interceptor';
 export { default as StorageService } from './services/storage-service';
+/* c8 ignore start */
