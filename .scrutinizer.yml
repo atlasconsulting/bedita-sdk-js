@@ -13,6 +13,3 @@ build:
       tests:
         override:
           - js-scrutinizer-run
-      environment:
-        node:
-          version: 16.14.2
