@@ -8,10 +8,11 @@ filter:
     - 'node_modules/*'
 
 build:
-  environment:
-      node: 16.14.2
   nodes:
     analysis:
       tests:
         override:
           - js-scrutinizer-run
+      environment:
+        node:
+          version: 16.14.2
