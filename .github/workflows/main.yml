@@ -75,18 +75,18 @@ jobs:
         uses: johanvanhelden/gha-clover-test-coverage-check@v1
         with:
           percentage: '65'
-          filename: 'clover.xml'
+          filename: './coverage/clover.xml'
 
       - name: 'Export coverage results'
         uses: 'codecov/codecov-action@v1'
         with:
-          file: './clover.xml'
+          file: './coverage/clover.xml'
 
       - name: 'Archive code coverage results'
         uses: 'actions/upload-artifact@v2'
         with:
           name: 'Code coverage'
-          path: 'clover.xml'
+          path: './coverage/clover.xml'
 
   release:
     needs: test
