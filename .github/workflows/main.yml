@@ -70,6 +70,19 @@ jobs:
       - name: Test
         run: yarn test
 
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
       - name: Coverage
         run: yarn coverage
 
@@ -89,14 +102,14 @@ jobs:
       - name: 'Archive code coverage results'
         uses: 'actions/upload-artifact@v2'
         with:
-          name: 'NODE ${{ matrix.node-version }}'
+          name: 'NODE 16'
           path: './coverage/clover.xml'
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-node-${{ matrix.node-version }}
+          flag-name: run-node-16
           parallel: true
 
   release:
@@ -106,7 +119,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '${{ matrix.node-version }}'
+          node-version: '16'
           cache: 'yarn'
 
       - name: Install dependencies
