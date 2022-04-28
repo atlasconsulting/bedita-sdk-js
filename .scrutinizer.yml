@@ -1,0 +1,15 @@
+checks:
+  javascript: true
+
+filter:
+  paths:
+    - 'src/*'
+  dependency_paths:
+    - 'node_modules/*'
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - js-scrutinizer-run
