@@ -126,12 +126,11 @@ jobs:
           name: 'NODE 16'
           path: './coverage/clover.xml'
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-node-16
-          parallel: true
+      # - name: Coveralls
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     flag-name: run-node-16
 
   release:
     needs: [test, coverage]
