@@ -96,7 +96,7 @@ A response interceptor **must** implements `ResponseInterceptorInterface`.
   docker run -p 8090:80 --env BEDITA_ADMIN_USR=admin --env BEDITA_ADMIN_PWD=admin --env BEDITA_API_KEY=1234567890 bedita/bedita:latest
   ```
 
-  Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.6.1`.
+  Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.7.0`.
 
 * run test with `yarn test`
 * launch `yarn coverage` if you want a coverage report
