@@ -92,6 +92,13 @@ jobs:
           name: 'NODE ${{ matrix.node-version }}'
           path: './coverage/clover.xml'
 
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-node-${{ matrix.node-version }}
+          parallel: true
+
   release:
     needs: test
     runs-on: ubuntu-latest
