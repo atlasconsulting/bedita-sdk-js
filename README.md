@@ -1,6 +1,6 @@
 # BEdita API SDK
 
-[![Github Actions](https://github.com/atlasconsulting/bedita-sdk-js/workflows/main/badge.svg)](https://github.com/atlasconsulting/bedita-sdk-js/actions?query=workflow%3Amain)
+[![Github Actions](https://github.com/atlasconsulting/bedita-sdk-js/actions/workflows/main.yml/badge.svg)](https://github.com/atlasconsulting/bedita-sdk-js/actions?query=workflow%3Amain)
 [![Codecov](https://codecov.io/gh/atlasconsulting/bedita-sdk-js/branch/main/graph/badge.svg)](https://codecov.io/gh/atlasconsulting/bedita-sdk-js)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/atlasconsulting/bedita-sdk-js/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/atlasconsulting/bedita-sdk-js/?branch=main)
 [![Build Status](https://scrutinizer-ci.com/g/atlasconsulting/bedita-sdk-js/badges/build.png?b=main)](https://scrutinizer-ci.com/g/atlasconsulting/bedita-sdk-js/build-status/main)
