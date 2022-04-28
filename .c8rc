@@ -3,7 +3,8 @@
         "html",
         "text",
         "text-summary",
-        "clover"
+        "clover",
+        "lcov"
     ],
     "all": true
 }

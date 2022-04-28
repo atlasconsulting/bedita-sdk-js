@@ -1,10 +1,6 @@
 name: Main
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: ["push", "pull_request"]
 
 jobs:
   build:
@@ -114,17 +110,10 @@ jobs:
           percentage: '65'
           filename: './coverage/clover.xml'
 
-      - name: 'Export coverage results'
-        uses: 'codecov/codecov-action@v1'
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
         with:
-          file: './coverage/clover.xml'
-          env_vars: NODE_VERSION
-
-      - name: 'Archive code coverage results'
-        uses: 'actions/upload-artifact@v2'
-        with:
-          name: 'NODE 16'
-          path: './coverage/clover.xml'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     needs: [test, coverage]
