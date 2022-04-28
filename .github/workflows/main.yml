@@ -35,7 +35,7 @@ jobs:
       BEDITA_API: http://localhost:8090
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
-      BEDITA_DOCKER_IMG: bedita/bedita:4.6.1
+      BEDITA_DOCKER_IMG: bedita/bedita:4.7.0
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
