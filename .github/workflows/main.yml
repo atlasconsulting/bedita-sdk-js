@@ -71,7 +71,7 @@ jobs:
         run: yarn test
 
   coverage:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -128,7 +128,7 @@ jobs:
           parallel: true
 
   release:
-    needs: coverage
+    needs: [test, coverage]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
