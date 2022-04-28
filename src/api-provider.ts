@@ -45,4 +45,13 @@ export default class ApiProvider {
 
         delete this.#registry[name];
     }
+
+    /**
+     * Debug function to test coverage
+     *
+     * @returns boolean
+     */
+    public static debugCoverage(): boolean {
+        return false;
+    }
 }
