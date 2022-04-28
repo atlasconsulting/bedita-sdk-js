@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
           cache: 'yarn'
 
       - name: Install dependencies
@@ -36,11 +36,14 @@ jobs:
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
       BEDITA_DOCKER_IMG: bedita/bedita:4.7.0
+    strategy:
+      matrix:
+        node-version: [14, 16]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '${{ matrix.node-version }}'
           cache: 'yarn'
 
       - name: 'Docker pull bedita image'
@@ -67,14 +70,70 @@ jobs:
       - name: Test
         run: yarn test
 
+  coverage:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      BEDITA_API_KEY: 1234567890
+      BEDITA_API: http://localhost:8090
+      BEDITA_ADMIN_USR: admin
+      BEDITA_ADMIN_PWD: admin
+      BEDITA_DOCKER_IMG: bedita/bedita:4.7.0
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: 'Docker pull bedita image'
+        run: 'docker pull ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Docker inspect bedita image'
+        run: 'docker inspect ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Docker run bedita image'
+        run: 'docker run --name api -d -p 8090:80 --env BEDITA_API_KEY=${BEDITA_API_KEY} --env BEDITA_ADMIN_USR=${BEDITA_ADMIN_USR} --env BEDITA_ADMIN_PWD=${BEDITA_ADMIN_PWD} ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Wait for 10'
+        run: 'sleep 10'
+
+      - name: 'Docker ps - show all containers'
+        run: 'docker ps -a'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Coverage
+        run: yarn coverage
+
+      - name: Check test coverage
+        id: test-coverage
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: '65'
+          filename: './coverage/clover.xml'
+
+      - name: 'Export coverage results'
+        uses: 'codecov/codecov-action@v1'
+        with:
+          file: './coverage/clover.xml'
+          env_vars: NODE_VERSION
+
+      - name: 'Archive code coverage results'
+        uses: 'actions/upload-artifact@v2'
+        with:
+          name: 'NODE 16'
+          path: './coverage/clover.xml'
+
   release:
-    needs: test
+    needs: [test, coverage]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
           cache: 'yarn'
 
       - name: Install dependencies
