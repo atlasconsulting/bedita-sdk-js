@@ -22,4 +22,9 @@ describe('ApiProvider', function() {
         expect(() => ApiProvider.get('myapi')).to.throw('Missing required API configuration');
     });
 
+    it('remove api client not in registry', function() {
+        const client = ApiProvider.get('myapi', { baseUrl: 'https://example.com'});
+        ApiProvider.remove('whatever'); // do nothing
+        expect('https://example.com').to.equal(client.getConfig('baseUrl'));
+    });
 });

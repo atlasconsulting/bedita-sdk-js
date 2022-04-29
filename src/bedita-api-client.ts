@@ -216,7 +216,17 @@ export class BEditaApiClient {
             }
         }
 
-        return this.#axiosInstance.interceptors.response.eject(id);
+        this.#axiosInstance.interceptors.response.eject(id);
+    }
+
+    /**
+     * Return the request interceptors map
+     *
+     * @returns Map<string, number>
+     */
+    public getRequestinterceptorsMap(): Map<string, number>
+    {
+        return this.#requestInterceptorsMap;
     }
 
     /**
