@@ -57,13 +57,22 @@ describe('BEditaApiClient', function() {
         expect(other).equals(1);
     });
 
-    it('test getRequestinterceptorsMap()', function() {
+    it('test getRequestInterceptorsMap()', function() {
         const client = new BEditaApiClient({
             baseUrl: 'https://example.com',
             name: 'gustavo-api'
         });
-        expect(client.getRequestinterceptorsMap().has('MapIncludedInterceptor')).false;
-        expect(client.getRequestinterceptorsMap().has('ContentTypeInterceptor')).true;
+        expect(client.getRequestInterceptorsMap().has('MapIncludedInterceptor')).false;
+        expect(client.getRequestInterceptorsMap().has('ContentTypeInterceptor')).true;
+    });
+
+    it('test getResponseInterceptorsMap()', function() {
+        const client = new BEditaApiClient({
+            baseUrl: 'https://example.com',
+            name: 'gustavo-api'
+        });
+        expect(client.getResponseInterceptorsMap().has('MapIncludedInterceptor')).false;
+        expect(client.getResponseInterceptorsMap().has('ContentTypeInterceptor')).false;
     });
 
     it('test removeInterceptor()', function() {
@@ -73,10 +82,10 @@ describe('BEditaApiClient', function() {
         });
         let index = client.addInterceptor(new MapIncludedInterceptor());
         client.removeInterceptor(index, 'response');
-        expect(client.getRequestinterceptorsMap().has('MapIncludedInterceptor')).false;
+        expect(client.getRequestInterceptorsMap().has('MapIncludedInterceptor')).false;
         index = client.addInterceptor(new ContentTypeInterceptor(client));
         client.removeInterceptor(index, 'request');
-        expect(client.getRequestinterceptorsMap().has('ContentTypeInterceptor')).false;
+        expect(client.getRequestInterceptorsMap().has('ContentTypeInterceptor')).false;
     });
 
     it('test save() error missing type', async function() {

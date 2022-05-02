@@ -221,12 +221,18 @@ export class BEditaApiClient {
 
     /**
      * Return the request interceptors map
-     *
-     * @returns Map<string, number>
      */
-    public getRequestinterceptorsMap(): Map<string, number>
+    public getRequestInterceptorsMap(): Map<string, number>
     {
         return this.#requestInterceptorsMap;
+    }
+
+    /**
+     * Return the response interceptors map
+     */
+    public getResponseInterceptorsMap(): Map<string, number>
+    {
+        return this.#responseInterceptorsMap;
     }
 
     /**
