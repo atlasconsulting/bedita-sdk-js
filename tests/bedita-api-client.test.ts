@@ -4,6 +4,11 @@ import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index';
 
 describe('BEditaApiClient', function() {
 
+    beforeEach(function () {
+        // clear local storage
+        localStorage.clear();
+    });
+
     it('init default name', function() {
         const client = new BEditaApiClient({ baseUrl: 'https://example.com'});
         expect('bedita').to.equal(client.getConfig('name'));
@@ -94,7 +99,7 @@ describe('BEditaApiClient', function() {
             name: 'gustavo-api'
         });
         try {
-            await client.save(null, {});
+            await client.save('', {});
             expect(false).equals(true); // this line should not be executed
         } catch(e) {
             expect(e.message).equals('Missing required type');
@@ -133,8 +138,35 @@ describe('BEditaApiClient', function() {
         }
     });
 
+    it('test clientCredentials() ok', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: this.apiConfig.baseURL,
+            name: 'gustavo-api',
+            clientId: this.apiConfig.apiKey,
+        });
+        const response = await client.get('/status');
+
+        expect(response.status).equals(200);
+        expect(response.data?.meta?.status?.environment).equals('ok');
+    });
+
+    it('test clientCredentials() ko', async function() {
+        try {
+            const client = new BEditaApiClient({
+                baseUrl: this.apiConfig.baseURL,
+                name: 'gustavo-api',
+                clientId: 'not-valid'
+            });
+            await client.get('/status');
+            expect(false).equals(true); // this line should not be executed
+        } catch(e) {
+            expect(e?.response?.status).equals(401);
+        }
+    });
+
     it('test getUserAuth()', async function() {
         try {
+            await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
             const response = await this.client.getUserAuth();
             expect(response.status).equals(200);
         } catch(e) {
@@ -144,12 +176,13 @@ describe('BEditaApiClient', function() {
 
     it('test renewTokens()', async function() {
         // 200 Ok
-        try {
-            const response = await this.client.renewTokens();
-            expect(response.status).equals(200);
-        } catch(e) {
-            expect(false).equals(true); // this line should not be executed
-        }
+        await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
+        this.client.getStorageService().accessToken = null;
+        const prevRefreshToken = this.client.getStorageService().refreshToken;
+        const response = await this.client.renewTokens();
+        expect(response.status).equals(200);
+        expect(this.client.getStorageService().accessToken).is.not.empty;
+
         // Missing refresh token
         try {
             this.client.getStorageService().refreshToken = '';
