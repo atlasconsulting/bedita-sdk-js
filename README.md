@@ -25,7 +25,9 @@ import { ApiProvider } from '@atlasconsulting/bedita-sdk';
 // used to register that specific client
 const client = ApiProvider.get('bedita', {
     baseUrl: 'https://api-bedita.example.com',
-    apiKey: '123456',
+    clientId: '123456',
+    clientSecret: 'abcdefg',
+    // apiKey: '123456', // as alternative you can use apiKey removing clientId and clientSecret (discouraged)
 });
 
 client.get('/documents')
