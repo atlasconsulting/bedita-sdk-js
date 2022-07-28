@@ -11,13 +11,17 @@ import { ResponseInterceptorInterface } from './interceptors/response-intercepto
  * Interface for API client configuration.
  *
  * - baseUrl: the BEdita API base URL
- * - apiKey: the API KEY to use (optional)
+ * - apiKey: the API KEY to use (optional). Deprecated, you are encouraged to use `clientId` and `clientSecret` instead.
  * - name: the name of the client instance (optional, default 'bedita')
+ * - clientId: the client id used for client credentials flow (optional)
+ * - clientSecret: the client secret used for client credentials flow (optional)
  */
 export interface ApiClientConfig {
     baseUrl: string,
     apiKey?: string,
     name?: string,
+    clientId?: string,
+    clientSecret?: string,
 }
 
 /**
@@ -73,6 +77,27 @@ export interface BEditaClientResponse<T = any> extends AxiosResponse {
 }
 
 /**
+ * String enums for grant types.
+ */
+export enum GrantType {
+    Password = 'password',
+    ClientCredentials = 'client_credentials',
+    RefreshToken = 'refresh_token',
+}
+
+/**
+ * Interface describing data used for auth action.
+ */
+export interface AuthData {
+    username?: string,
+    password?: string,
+    client_id?: string,
+    client_secret?: string,
+    [s: string]: any,
+    grant_type: GrantType | string,
+}
+
+/**
  * BEdita API client.
  */
 export class BEditaApiClient {
@@ -117,7 +142,6 @@ export class BEditaApiClient {
         if (!config.name) {
             config.name = 'bedita';
         }
-        this.#config = { ...config };
 
         const axiosConfig: AxiosRequestConfig = {
             baseURL: config.baseUrl,
@@ -126,10 +150,15 @@ export class BEditaApiClient {
             },
         };
 
+        if (config.clientId) {
+            delete config.apiKey; // remove deprecated API key
+        }
+
         if (config.apiKey) {
             axiosConfig.headers['X-Api-Key'] = config.apiKey;
         }
 
+        this.#config = { ...config };
         this.#axiosInstance = axios.create(axiosConfig);
         this.#storageService = new StorageService(config.name);
 
@@ -142,7 +171,7 @@ export class BEditaApiClient {
      */
     public getConfig(key?: string): ApiClientConfig | any {
         if (key) {
-            return this.#config[key];
+            return this.#config?.[key] || null;
         }
 
         return this.#config;
@@ -349,9 +378,23 @@ export class BEditaApiClient {
      * @param password The password
      */
     public async authenticate(username: string, password: string): Promise<BEditaClientResponse<any>> {
-        this.#storageService.clearTokens().remove('user');
-        const data = { username, password };
-        const response = await this.post('/auth', data)
+        if (this.getConfig('apiKey')) {
+            this.#storageService.clearTokens();
+        }
+        this.#storageService.remove('user');
+        const data: AuthData = { username, password, grant_type: GrantType.Password };
+
+        return await this.auth(data);
+    }
+
+    /**
+     * Execute an auth request.
+     *
+     * @param data The auth data
+     * @param config Additional request configuration
+     */
+    protected async auth(data: AuthData, config?: BEditaClientRequestConfig): Promise<BEditaClientResponse<any>> {
+        const response = await this.post('/auth', data, config);
         const tokens = response.data && response.data.meta || {};
         if (!tokens.jwt || !tokens.renew) {
             return Promise.reject('Something was wrong with response data.');
@@ -360,6 +403,19 @@ export class BEditaApiClient {
         this.#storageService.refreshToken = tokens.renew;
 
         return response;
+    }
+
+    /**
+     * Client credentials auth.
+     */
+    public async clientCredentials(): Promise<BEditaClientResponse<any>> {
+        const data: AuthData = {
+            client_id: this.getConfig('clientId'),
+            client_secret: this.getConfig('clientSecret'),
+            grant_type: GrantType.ClientCredentials,
+        };
+
+        return await this.auth(data);
     }
 
     /**
@@ -395,15 +451,7 @@ export class BEditaApiClient {
         };
 
         try {
-            const response = await this.post('/auth', null, config);
-            const tokens = response.data.meta || {};
-            if (!tokens.jwt || !tokens.renew) {
-                throw new Error('Something was wrong with response data.');
-            }
-            this.#storageService.accessToken = tokens.jwt;
-            this.#storageService.refreshToken = tokens.renew;
-
-            return response;
+            return await this.auth({ grant_type: GrantType.RefreshToken }, config);
         } catch (error) {
             this.#storageService.clearTokens().remove('user');
             throw error;
