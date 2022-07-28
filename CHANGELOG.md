@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.1.0...v1.2.0) (2022-07-28)
+
+
+### Features
+
+* handle client credentials flow ([8437e9f](https://github.com/atlasconsulting/bedita-sdk-js/commit/8437e9f6557d1c9429e1430f0ae104817c681483))
+
 # [1.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.0.0...v1.1.0) (2022-01-31)
 
 
