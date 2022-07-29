@@ -62,6 +62,42 @@ describe('BEditaApiClient', function() {
         expect(other).equals(1);
     });
 
+    it('test hasInterceptor()', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: 'https://example.com',
+            name: 'gustavo-api'
+        });
+
+        expect(client.hasInterceptor(new ContentTypeInterceptor(client))).to.be.true;
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.false;
+
+        client.addInterceptor(new MapIncludedInterceptor());
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+    });
+
+    it('test that adding missing interceptor in request then it has been removed', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: this.apiConfig.baseURL,
+            apiKey: this.apiConfig.apiKey,
+        });
+
+        await client.get('/status', {responseInterceptors: [new MapIncludedInterceptor()]});
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.false;
+    });
+
+    it('test that adding already present interceptor in request then it is still present', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: this.apiConfig.baseURL,
+            apiKey: this.apiConfig.apiKey,
+        });
+
+        client.addInterceptor(new MapIncludedInterceptor());
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+
+        await client.get('/status', {responseInterceptors: [new MapIncludedInterceptor()]});
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+    });
+
     it('test getRequestInterceptorsMap()', function() {
         const client = new BEditaApiClient({
             baseUrl: 'https://example.com',

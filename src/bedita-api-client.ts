@@ -222,6 +222,20 @@ export class BEditaApiClient {
     }
 
     /**
+     * Say if interceptor is already present.
+     *
+     * @param interceptor The interceptor instance
+     */
+    public hasInterceptor(interceptor: RequestInterceptorInterface | ResponseInterceptorInterface): boolean {
+        const name = interceptor.constructor.name;
+        if ('requestHandler' in interceptor) {
+            return this.#requestInterceptorsMap.has(name);
+        }
+
+        return this.#responseInterceptorsMap.has(name);
+    }
+
+    /**
      * Remove an interceptor from axios instance.
      *
      * @param id The interceptor id
@@ -289,7 +303,9 @@ export class BEditaApiClient {
         const reqIntercetorsIds = [], respInterceptorsIds = [];
         if (config.requestInterceptors) {
             config.requestInterceptors.forEach(interceptorInstance => {
-                reqIntercetorsIds.push(this.addInterceptor(interceptorInstance));
+                if (!this.hasInterceptor(interceptorInstance)) {
+                    reqIntercetorsIds.push(this.addInterceptor(interceptorInstance));
+                }
             });
 
             delete config.requestInterceptors;
@@ -297,7 +313,9 @@ export class BEditaApiClient {
 
         if (config.responseInterceptors) {
             config.responseInterceptors.forEach(interceptorInstance => {
-                respInterceptorsIds.push(this.addInterceptor(interceptorInstance));
+                if (!this.hasInterceptor(interceptorInstance)) {
+                    respInterceptorsIds.push(this.addInterceptor(interceptorInstance));
+                }
             });
 
             delete config.responseInterceptors;
