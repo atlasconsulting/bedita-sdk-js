@@ -177,15 +177,15 @@ describe('BEditaApiClient', function() {
     it('test renewTokens()', async function() {
         // 200 Ok
         await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
-        this.client.getStorageService().accessToken = null;
-        const prevRefreshToken = this.client.getStorageService().refreshToken;
+        await this.client.getStorageService().setAccessToken(null);
+        const prevRefreshToken = await this.client.getStorageService().getRefreshToken();
         const response = await this.client.renewTokens();
         expect(response.status).equals(200);
-        expect(this.client.getStorageService().accessToken).is.not.empty;
+        expect(await this.client.getStorageService().getAccessToken()).is.not.empty;
 
         // Missing refresh token
         try {
-            this.client.getStorageService().refreshToken = '';
+            await this.client.getStorageService().setRefreshToken('');
             await this.client.renewTokens();
             expect(false).equals(true); // this line should not be executed
         } catch(message) {
@@ -193,7 +193,7 @@ describe('BEditaApiClient', function() {
         }
         // 401 Unauthorized
         try {
-            this.client.getStorageService().refreshToken = '123456';
+            await this.client.getStorageService().setRefreshToken('123456');
             await this.client.renewTokens();
             expect(false).equals(true); // this line should not be executed
         } catch(resp) {
