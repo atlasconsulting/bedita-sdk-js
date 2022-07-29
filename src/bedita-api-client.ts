@@ -422,6 +422,10 @@ export class BEditaApiClient {
     /**
      * Get the authenticated user and store it.
      * Format user data using `FormatUserInterceptor`.
+     * If `include` is passed than `MapIncludedInterceptor` will be used too
+     * to put related objects inside the relative relationship key.
+     *
+     * @param include A list of relationships to include
      */
     public async getUserAuth(include?: Array<string>): Promise<BEditaClientResponse<any>> {
         const responseInterceptors: Array<ResponseInterceptorInterface> = [new FormatUserInterceptor(this)];
