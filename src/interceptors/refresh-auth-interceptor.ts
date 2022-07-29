@@ -12,22 +12,22 @@ export default class RefreshAuthInterceptor extends ResponseInterceptor {
      *
      * @param error The original error.
      */
-    public errorHandler(error: any): Promise<any> {
+    public async errorHandler(error: any): Promise<any> {
         if (!error.response || !this.isTokenExpired(error.response)) {
             // Not an expired token's fault.
             if (error.response?.status === 401) { // if 401 clear tokens
                 const storage = this.beditaClient.getStorageService();
-                storage.clearTokens().remove('user');
+                await storage.clearTokens();
+                await storage.remove('user');
             }
 
             return Promise.reject(error);
         }
 
-        return this.beditaClient.renewTokens()
-            .then(() => {
-                delete error.config.headers.Authorization;
-                return this.beditaClient.request(error.config)
-            });
+        await this.beditaClient.renewTokens();
+        delete error.config.headers.Authorization;
+
+        return await this.beditaClient.request(error.config);
     }
 
     /**

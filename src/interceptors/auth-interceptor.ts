@@ -13,26 +13,26 @@ export default class AuthInterceptor extends RequestInterceptor {
      *
      * @param config The axios request config
      */
-    public requestHandler(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
-        config = this.setAuthorizationHeader(config);
+    public async requestHandler(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+        config = await this.setAuthorizationHeader(config);
 
         // Authorization header set so go ahead
         if (config.headers?.Authorization) {
-            return Promise.resolve(config);
+            return config;
         }
 
         // trying client credentials auth so go ahead
         if (config.url === '/auth' && config.data?.grant_type === GrantType.ClientCredentials) {
-            return Promise.resolve(config);
+            return config;
         }
 
         if (!this.beditaClient.getConfig('clientId')) {
-            return Promise.resolve(config);
+            return config;
         }
 
-        return this.beditaClient
-            .clientCredentials()
-            .then(() => Promise.resolve(this.setAuthorizationHeader(config)));
+        await this.beditaClient.clientCredentials();
+
+        return await this.setAuthorizationHeader(config);
     }
 
     /**
@@ -40,8 +40,8 @@ export default class AuthInterceptor extends RequestInterceptor {
      *
      * @param config The axios request config
      */
-    protected setAuthorizationHeader(config: AxiosRequestConfig): AxiosRequestConfig {
-        const accessToken = this.beditaClient.getStorageService().accessToken;
+    protected async setAuthorizationHeader(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+        const accessToken = await this.beditaClient.getStorageService().getAccessToken();
         if (accessToken && !config.headers?.Authorization) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }

@@ -6,6 +6,8 @@ import FormatUserInterceptor from './interceptors/format-user.interceptor';
 import ContentTypeInterceptor from './interceptors/content-type-interceptor';
 import { RequestInterceptorInterface } from './interceptors/request-interceptor';
 import { ResponseInterceptorInterface } from './interceptors/response-interceptor';
+import StorageAdapterInterface from './services/adapters/storage-adapter-interface';
+import LocalStorageAdapter from './services/adapters/local-storage-adapter';
 
 /**
  * Interface for API client configuration.
@@ -15,6 +17,7 @@ import { ResponseInterceptorInterface } from './interceptors/response-intercepto
  * - name: the name of the client instance (optional, default 'bedita')
  * - clientId: the client id used for client credentials flow (optional)
  * - clientSecret: the client secret used for client credentials flow (optional)
+ * - storageAdapter: the adapter used by storage service
  */
 export interface ApiClientConfig {
     baseUrl: string,
@@ -22,6 +25,7 @@ export interface ApiClientConfig {
     name?: string,
     clientId?: string,
     clientSecret?: string,
+    storageAdapter?: StorageAdapterInterface,
 }
 
 /**
@@ -160,7 +164,8 @@ export class BEditaApiClient {
 
         this.#config = { ...config };
         this.#axiosInstance = axios.create(axiosConfig);
-        this.#storageService = new StorageService(config.name);
+        const storageAdapter = config?.storageAdapter || new LocalStorageAdapter();
+        this.#storageService = new StorageService(config.name, storageAdapter);
 
         this.addDefaultInterceptors();
     }
@@ -379,9 +384,9 @@ export class BEditaApiClient {
      */
     public async authenticate(username: string, password: string): Promise<BEditaClientResponse<any>> {
         if (this.getConfig('apiKey')) {
-            this.#storageService.clearTokens();
+            await this.#storageService.clearTokens();
         }
-        this.#storageService.remove('user');
+        await this.#storageService.remove('user');
         const data: AuthData = { username, password, grant_type: GrantType.Password };
 
         return await this.auth(data);
@@ -399,8 +404,8 @@ export class BEditaApiClient {
         if (!tokens.jwt || !tokens.renew) {
             return Promise.reject('Something was wrong with response data.');
         }
-        this.#storageService.accessToken = tokens.jwt;
-        this.#storageService.refreshToken = tokens.renew;
+        await this.#storageService.setAccessToken(tokens.jwt);
+        await this.#storageService.setRefreshToken(tokens.renew);
 
         return response;
     }
@@ -430,7 +435,7 @@ export class BEditaApiClient {
             }
         );
 
-        this.#storageService.set('user', JSON.stringify(response.formattedData));
+        await this.#storageService.set('user', JSON.stringify(response.formattedData));
 
         return response;
     }
@@ -439,7 +444,7 @@ export class BEditaApiClient {
      * Renew access and refresh tokens.
      */
     public async renewTokens(): Promise<BEditaClientResponse<any>> {
-        const refreshToken = this.#storageService.refreshToken;
+        const refreshToken = await this.#storageService.getRefreshToken();
         if (!refreshToken) {
             return Promise.reject('Missing refresh token.');
         }
@@ -453,7 +458,8 @@ export class BEditaApiClient {
         try {
             return await this.auth({ grant_type: GrantType.RefreshToken }, config);
         } catch (error) {
-            this.#storageService.clearTokens().remove('user');
+            await this.#storageService.clearTokens();
+            await this.#storageService.remove('user');
             throw error;
         }
     }
