@@ -169,8 +169,21 @@ describe('BEditaApiClient', function() {
             await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
             const response = await this.client.getUserAuth();
             expect(response.status).equals(200);
+            expect(response.formattedData.data.attributes.username).equals(this.apiConfig.adminUser);
+            expect(response.formattedData.roles?.[0]).equals('admin');
         } catch(e) {
             expect(false).equals(true); // this line should not be executed
+        }
+    });
+
+    it('test getUserAuth() with wrong included', async function() {
+        try {
+            await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
+            await this.client.getUserAuth(['wrong', 'bad']);
+            expect(false).equals(true); // this line should not be executed
+        } catch(e) {
+            expect(e.request.path).equals('/auth/user?include=wrong,bad');
+            expect(e.response.status).equals(400);
         }
     });
 
