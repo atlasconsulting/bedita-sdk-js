@@ -6,6 +6,7 @@ import FormatUserInterceptor from './interceptors/format-user.interceptor';
 import ContentTypeInterceptor from './interceptors/content-type-interceptor';
 import { RequestInterceptorInterface } from './interceptors/request-interceptor';
 import { ResponseInterceptorInterface } from './interceptors/response-interceptor';
+import MapIncludedInterceptor from './interceptors/map-included-interceptor';
 
 /**
  * Interface for API client configuration.
@@ -221,6 +222,20 @@ export class BEditaApiClient {
     }
 
     /**
+     * Say if interceptor is already present.
+     *
+     * @param interceptor The interceptor instance
+     */
+    public hasInterceptor(interceptor: RequestInterceptorInterface | ResponseInterceptorInterface): boolean {
+        const name = interceptor.constructor.name;
+        if ('requestHandler' in interceptor) {
+            return this.#requestInterceptorsMap.has(name);
+        }
+
+        return this.#responseInterceptorsMap.has(name);
+    }
+
+    /**
      * Remove an interceptor from axios instance.
      *
      * @param id The interceptor id
@@ -288,7 +303,9 @@ export class BEditaApiClient {
         const reqIntercetorsIds = [], respInterceptorsIds = [];
         if (config.requestInterceptors) {
             config.requestInterceptors.forEach(interceptorInstance => {
-                reqIntercetorsIds.push(this.addInterceptor(interceptorInstance));
+                if (!this.hasInterceptor(interceptorInstance)) {
+                    reqIntercetorsIds.push(this.addInterceptor(interceptorInstance));
+                }
             });
 
             delete config.requestInterceptors;
@@ -296,7 +313,9 @@ export class BEditaApiClient {
 
         if (config.responseInterceptors) {
             config.responseInterceptors.forEach(interceptorInstance => {
-                respInterceptorsIds.push(this.addInterceptor(interceptorInstance));
+                if (!this.hasInterceptor(interceptorInstance)) {
+                    respInterceptorsIds.push(this.addInterceptor(interceptorInstance));
+                }
             });
 
             delete config.responseInterceptors;
@@ -421,14 +440,23 @@ export class BEditaApiClient {
     /**
      * Get the authenticated user and store it.
      * Format user data using `FormatUserInterceptor`.
+     * If `include` is passed than `MapIncludedInterceptor` will be used too
+     * to put related objects inside the relative relationship key.
+     *
+     * @param include A list of relationships to include
      */
-    public async getUserAuth(): Promise<BEditaClientResponse<any>> {
-        const response = await this.get(
-            '/auth/user',
-            {
-                responseInterceptors: [new FormatUserInterceptor(this)]
-            }
-        );
+    public async getUserAuth(include?: Array<string>): Promise<BEditaClientResponse<any>> {
+        const responseInterceptors: Array<ResponseInterceptorInterface> = [new FormatUserInterceptor(this)];
+        const params: any = {};
+        if (include && include.length > 0) {
+            responseInterceptors.unshift(new MapIncludedInterceptor());
+            params.include = include.join(',');
+        }
+
+        const response = await this.get('/auth/user', {
+            params,
+            responseInterceptors,
+        });
 
         this.#storageService.set('user', JSON.stringify(response.formattedData));
 
