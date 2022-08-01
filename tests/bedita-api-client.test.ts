@@ -75,7 +75,7 @@ describe('BEditaApiClient', function() {
         expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
     });
 
-    it('test that adding missing interceptor in request then it has been removed', async function() {
+    it('test that adding missing interceptor in request then it will be removed', async function() {
         const client = new BEditaApiClient({
             baseUrl: this.apiConfig.baseURL,
             apiKey: this.apiConfig.apiKey,
