@@ -196,7 +196,7 @@ describe('BEditaApiClient', function() {
             await client.get('/status');
             expect(false).equals(true); // this line should not be executed
         } catch(e) {
-            expect(e?.response?.status).equals(401);
+            expect(e?.response?.status).equals(403);
         }
     });
 
