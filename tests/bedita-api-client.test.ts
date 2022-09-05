@@ -62,6 +62,42 @@ describe('BEditaApiClient', function() {
         expect(other).equals(1);
     });
 
+    it('test hasInterceptor()', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: 'https://example.com',
+            name: 'gustavo-api'
+        });
+
+        expect(client.hasInterceptor(new ContentTypeInterceptor(client))).to.be.true;
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.false;
+
+        client.addInterceptor(new MapIncludedInterceptor());
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+    });
+
+    it('test that adding missing interceptor in request then it will be removed', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: this.apiConfig.baseURL,
+            apiKey: this.apiConfig.apiKey,
+        });
+
+        await client.get('/status', {responseInterceptors: [new MapIncludedInterceptor()]});
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.false;
+    });
+
+    it('test that adding already present interceptor in request then it is still present', async function() {
+        const client = new BEditaApiClient({
+            baseUrl: this.apiConfig.baseURL,
+            apiKey: this.apiConfig.apiKey,
+        });
+
+        client.addInterceptor(new MapIncludedInterceptor());
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+
+        await client.get('/status', {responseInterceptors: [new MapIncludedInterceptor()]});
+        expect(client.hasInterceptor(new MapIncludedInterceptor())).to.be.true;
+    });
+
     it('test getRequestInterceptorsMap()', function() {
         const client = new BEditaApiClient({
             baseUrl: 'https://example.com',
@@ -160,7 +196,7 @@ describe('BEditaApiClient', function() {
             await client.get('/status');
             expect(false).equals(true); // this line should not be executed
         } catch(e) {
-            expect(e?.response?.status).equals(401);
+            expect(e?.response?.status).equals(403);
         }
     });
 
@@ -169,8 +205,21 @@ describe('BEditaApiClient', function() {
             await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
             const response = await this.client.getUserAuth();
             expect(response.status).equals(200);
+            expect(response.formattedData.data.attributes.username).equals(this.apiConfig.adminUser);
+            expect(response.formattedData.roles?.[0]).equals('admin');
         } catch(e) {
             expect(false).equals(true); // this line should not be executed
+        }
+    });
+
+    it('test getUserAuth() with wrong included', async function() {
+        try {
+            await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
+            await this.client.getUserAuth(['wrong', 'bad']);
+            expect(false).equals(true); // this line should not be executed
+        } catch(e) {
+            expect(e.request.path).equals('/auth/user?include=wrong,bad');
+            expect(e.response.status).equals(400);
         }
     });
 

@@ -1,6 +1,6 @@
 {
     "name": "@atlasconsulting/bedita-sdk",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "A simple BEdita SDK based on axios",
     "repository": {
         "type": "git",
@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "build": "./node_modules/.bin/tsc",
-        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts tests/**/*.test.ts",
+        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
         "coverage": "c8 yarn run test",
         "lint": "eslint . --ext .ts",
         "prepare": "husky install"

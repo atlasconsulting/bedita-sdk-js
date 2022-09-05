@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.2.0...v1.3.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* **interceptors:** do not remove interceptor already added ([3be8eb1](https://github.com/atlasconsulting/bedita-sdk-js/commit/3be8eb14a3ee62c57be42fe87904d16f3dcb69d5))
+
+
+### Features
+
+* allow to include relationships in getUserAuth ([8cb5825](https://github.com/atlasconsulting/bedita-sdk-js/commit/8cb582554c13cfb0aa7b88e05e31d2edbd1dd20d))
+
 # [1.2.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.1.0...v1.2.0) (2022-07-28)
 
 

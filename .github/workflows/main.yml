@@ -2,9 +2,9 @@ name: Main
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, beta, 1.x ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, beta, 1.x ]
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
       BEDITA_API: http://localhost:8090
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
-      BEDITA_DOCKER_IMG: bedita/bedita:4.7.0
+      BEDITA_DOCKER_IMG: bedita/bedita:5.0.1
     strategy:
       matrix:
         node-version: [14, 16]
@@ -78,7 +78,7 @@ jobs:
       BEDITA_API: http://localhost:8090
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
-      BEDITA_DOCKER_IMG: bedita/bedita:4.7.0
+      BEDITA_DOCKER_IMG: bedita/bedita:5.0.1
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
