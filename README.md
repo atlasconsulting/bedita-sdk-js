@@ -91,6 +91,25 @@ client.addInterceptor(new MapIncludedInterceptor());
 A request interceptor **must** implements `RequestInterceptorInterface`.
 A response interceptor **must** implements `ResponseInterceptorInterface`.
 
+## Storage Adapters
+
+By default the JWT tokens are saved in `localStorage` but it is possibile to use a different adapter
+to store that data. There are two different adapters:
+
+* `LocalStorageAdaper`
+* `MemoryStorageAdapter` (to save only in memory)
+
+If you want to store data in a different storage you can implement a new adapter that must implement `StorageAdapterInterface`.
+
+```js
+const client = ApiProvider.get('bedita', {
+    baseUrl: 'https://api-bedita.example.com',
+    clientId: '123456',
+    clientSecret: 'abcdefg',
+    storageAdapter: new InnoDbAdapter(), // where class InnoDbAdapter implements StorageAdapterInterface
+});
+```
+
 ## Develop
 
 @todo

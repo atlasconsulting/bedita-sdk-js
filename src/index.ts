@@ -9,4 +9,7 @@ export { default as RefreshAuthInterceptor } from './interceptors/refresh-auth-i
 export { default as RequestInterceptor, RequestInterceptorInterface } from './interceptors/request-interceptor';
 export { default as ResponseInterceptor, ResponseInterceptorInterface } from './interceptors/response-interceptor';
 export { default as StorageService } from './services/storage-service';
-/* c8 ignore start */
+export { default as StorageAdapterInterface } from './services/adapters/storage-adapter-interface';
+export { default as LocalStorageAdapter } from './services/adapters/local-storage-adapter';
+export { default as MemoryStorageAdapter } from './services/adapters/memory-storage-adapter';
+/* c8 ignore stop */
