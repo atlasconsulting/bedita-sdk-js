@@ -1,3 +1,4 @@
+/* c8 ignore start */
 /**
  * Storage service interface.
  */
@@ -28,3 +29,4 @@ export default interface StorageAdapterInterface {
      */
     empty(): Promise<boolean>;
 }
+/* c8 ignore stop */
