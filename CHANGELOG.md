@@ -1,3 +1,10 @@
+# [2.0.0-beta.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-10-27)
+
+
+### Features
+
+* add option to replace main object language with translation ([42fbd16](https://github.com/atlasconsulting/bedita-sdk-js/commit/42fbd16ee8a17136aa1feebfccb439f0be2a597b))
+
 # [2.0.0-beta.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.3.0...v2.0.0-beta.1) (2022-09-06)
 
 
