@@ -6,7 +6,7 @@ import FormatUserInterceptor from './interceptors/format-user.interceptor';
 import ContentTypeInterceptor from './interceptors/content-type-interceptor';
 import { RequestInterceptorInterface } from './interceptors/request-interceptor';
 import { ResponseInterceptorInterface } from './interceptors/response-interceptor';
-import MapIncludedInterceptor from './interceptors/map-included-interceptor';
+import { MapIncludedInterceptor } from './interceptors/map-included-interceptor';
 import StorageAdapterInterface from './services/adapters/storage-adapter-interface';
 import LocalStorageAdapter from './services/adapters/local-storage-adapter';
 
