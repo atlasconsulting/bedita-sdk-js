@@ -3,12 +3,58 @@ import { AxiosResponse } from 'axios';
 import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../bedita-api-client';
 
 /**
+ * Interface for MapIncludedInterceptor configuration.
+ *
+ * - replaceWithTranslation: translation language (replace main objects fields with translated fields if not empty)
+ */
+export interface MapIncludedConfig {
+    replaceWithTranslation?: string,
+}
+
+/**
  * Formatter interceptor for mapping include data inside the related object data
  */
-export default class MapIncludedInterceptor implements ResponseInterceptorInterface {
+export class MapIncludedInterceptor implements ResponseInterceptorInterface {
 
     /**
-     * When response has included data format the response data as
+     * Interceptor configuration
+     */
+    #config: MapIncludedConfig;
+
+    /**
+     * Constructor.
+     *
+     * @param config The configuration for the interceptor.
+     */
+    public constructor(config: MapIncludedConfig = {}) {
+        this.setConfig(config);
+    }
+
+    /**
+     * Set configuration.
+     *
+     * @param config The config data.
+     * @param merge If config should be merged or not
+     */
+    public setConfig(config: MapIncludedConfig, merge = true): void {
+        if (!merge) {
+            this.#config = config;
+
+            return;
+        }
+
+        this.#config = { ...this.#config, ...config };
+    }
+
+    /**
+     * Get the interceptor configuration.
+     */
+    public getConfig(): MapIncludedConfig {
+        return this.#config;
+    }
+
+    /**
+     * When response has included data they are formatted as
      *
      * ```
      * {
@@ -17,16 +63,18 @@ export default class MapIncludedInterceptor implements ResponseInterceptorInterf
      *          "type": "resource-one",
      *          "attributes": {},
      *          "relationships": {
-     *              "rel_one": [
-     *                  {
-     *                      "id": "234",
-     *                      "type": "resource-two",
-     *                      "attributes": {},
+     *              "rel_one": {
+     *                  "data": [
+     *                      {
+     *                          "id": "234",
+     *                          "type": "resource-two",
+     *                          "attributes": {},
+     *                          ...
+     *                      },
      *                      ...
-     *                  },
-     *                  ...
-     *              ],
-     *              "rel_two": [],
+     *                  ],
+     *              },
+     *              "rel_two": {},
      *              ...
      *          }
      *      }
@@ -86,14 +134,38 @@ export default class MapIncludedInterceptor implements ResponseInterceptorInterf
         Object.keys(relationships).forEach((rel) => {
             let d: Array<JsonApiResourceObject> = relationships[rel]?.data || [];
             if (d.length > 0) {
-                d = d.map(dItem => included.find(includedItem => includedItem.id === dItem.id));
+                d = d.map(dItem => {
+                    const includedData = included.find(includedItem => includedItem.id === dItem.id);
+                    if (rel === 'translations' && includedData.attributes?.lang === this.#config?.replaceWithTranslation) {
+                        data.attributes = { ...data.attributes, ...this.extractTranslatedFields(includedData) };
+                    }
+
+                    return includedData;
+                });
             }
 
-            relationships[rel] = d;
+            relationships[rel].data = d;
         });
 
         data.relationships = relationships;
 
         return data;
+    }
+
+    /**
+     * Extract `translated_fields` removing empty values.
+     *
+     * @param data The data to analyse
+     * @returns
+     */
+    protected extractTranslatedFields(data: JsonApiResourceObject) {
+        const translatedFields = { ...data?.attributes?.translated_fields || {} };
+        Object.keys(translatedFields).forEach(key => {
+            if (!translatedFields[key] || translatedFields[key] === '') {
+                delete translatedFields[key];
+            }
+        });
+
+        return translatedFields;
     }
 }

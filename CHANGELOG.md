@@ -1,3 +1,28 @@
+# [2.0.0-beta.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-10-27)
+
+
+### Features
+
+* add option to replace main object language with translation ([42fbd16](https://github.com/atlasconsulting/bedita-sdk-js/commit/42fbd16ee8a17136aa1feebfccb439f0be2a597b))
+
+# [2.0.0-beta.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.3.0...v2.0.0-beta.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* export StorageAdapterInterface ([06ea780](https://github.com/atlasconsulting/bedita-sdk-js/commit/06ea78008812946b1ee901a2e6c93a5fc184c9bf))
+
+
+### Features
+
+* introduce async storage adapters ([203f229](https://github.com/atlasconsulting/bedita-sdk-js/commit/203f229a3ba4ee78e1496201206dbb3fa8598d5e))
+
+
+### BREAKING CHANGES
+
+* change the storage access from sync to async.
+Done  for more flexibility.
+
 # [1.3.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.2.0...v1.3.0) (2022-08-01)
 
 

@@ -1,7 +1,8 @@
+import StorageAdapterInterface from "./adapters/storage-adapter-interface";
+
 /**
  * Storage service class.
  * Help to read/write/remove tokens as access_token and refresh_token.
- * Use localStorage to store data.
  */
 export default class StorageService {
 
@@ -9,6 +10,17 @@ export default class StorageService {
      * The storage name. Used to prefix localStorage var
      */
     #name: string;
+
+    /**
+     * The storage adapter.
+     */
+    #adapter: StorageAdapterInterface;
+
+    /**
+     * Key namespace seprator.
+     * For example with `#name` 'bedita' the key 'access_token' become `bedita.access_token`.
+     */
+    #namespaceSeparator = '.';
 
     /**
      * The access token key
@@ -25,46 +37,61 @@ export default class StorageService {
      * It sets the access token and refresh token keys.
      *
      * @param name The name used as prefix for store in localStorage
+     * @param adapter The storage adapter
      */
-    public constructor(name = 'bedita') {
+    public constructor(name = 'bedita', adapter: StorageAdapterInterface) {
         this.#name = name;
+        this.#adapter = adapter;
     }
 
     /**
-     * Getter for access token.
+     * Get access token.
      */
-    get accessToken(): string|null {
+    public getAccessToken(): Promise<string|null> {
         return this.get(this.ACCESS_TOKEN_KEY);
     }
 
     /**
-     * Setter for access token.
+     * Set access token.
+     *
+     * @param value access token value.
      */
-    set accessToken(value: string) {
-        this.set(this.ACCESS_TOKEN_KEY, value);
+    public setAccessToken(value: string): Promise<any> {
+        return this.set(this.ACCESS_TOKEN_KEY, value);
     }
 
     /**
-     * Getter for refresh token.
+     * Get refresh token.
      */
-    get refreshToken(): string|null {
+    public getRefreshToken(): Promise<string|null> {
         return this.get(this.REFRESH_TOKEN_KEY);
     }
 
     /**
-     * Setter for refresh token.
+     * Set refresh token.
+     *
+     * @param value refresh token value.
      */
-    set refreshToken(value: string) {
-        this.set(this.REFRESH_TOKEN_KEY, value);
+    public setRefreshToken(value: string): Promise<any> {
+        return this.set(this.REFRESH_TOKEN_KEY, value);
     }
 
     /**
      * Remove all tokens.
-     * Return this for chainability.
      */
-    public clearTokens(): StorageService {
-        return this.remove(this.ACCESS_TOKEN_KEY)
-            .remove(this.REFRESH_TOKEN_KEY);
+    public async clearTokens(): Promise<any> {
+        await this.remove(this.ACCESS_TOKEN_KEY);
+        await this.remove(this.REFRESH_TOKEN_KEY);
+    }
+
+    /**
+     * Set the namespace separator.
+     *
+     * @param separator The namespace separator to use
+     */
+    public setNamespaceSeparator(separator: string): void
+    {
+        this.#namespaceSeparator = separator;
     }
 
     /**
@@ -73,31 +100,24 @@ export default class StorageService {
      * @param key The key.
      */
     protected getNamespacedKey(key: string): string {
-        return `${this.#name}.${key}`;
+        return `${this.#name}${this.#namespaceSeparator}${key}`;
     }
 
     /**
      * Get the storaged value.
-     *
-     * @todo JSON parse if value a re json stringified
      */
-    public get(key: string): any {
-        return localStorage.getItem(this.getNamespacedKey(key));
+    public get(key: string): Promise<any> {
+        return this.#adapter.get(this.getNamespacedKey(key));
     }
 
     /**
      * Set a value in the storage.
-     * Return this for chainability.
      *
      * @param key The starage key
      * @param value The value
-     *
-     * @todo JSON stringify value that represents objects
      */
-    public set(key: string, value: string): StorageService {
-        localStorage.setItem(this.getNamespacedKey(key), value);
-
-        return this;
+    public set(key: string, value: any): Promise<any> {
+        return this.#adapter.set(this.getNamespacedKey(key), value);
     }
 
     /**
@@ -105,9 +125,7 @@ export default class StorageService {
      *
      * @param key The key to remove
      */
-    public remove(key: string): StorageService {
-        localStorage.removeItem(this.getNamespacedKey(key));
-
-        return this;
+    public remove(key: string): Promise<any> {
+        return this.#adapter.remove(this.getNamespacedKey(key));
     }
 }
