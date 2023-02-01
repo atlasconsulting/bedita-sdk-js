@@ -5,5 +5,6 @@
         "text-summary",
         "clover"
     ],
-    "all": true
+    "all": true,
+    "src": "src"
 }
