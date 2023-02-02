@@ -10,10 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
           cache: 'yarn'
 
       - name: Install dependencies
@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: bedita-sdk
           path: dist
@@ -40,8 +40,8 @@ jobs:
       matrix:
         node-version: [14, 16, 18]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '${{ matrix.node-version }}'
           cache: 'yarn'
@@ -80,8 +80,8 @@ jobs:
       BEDITA_ADMIN_PWD: admin
       BEDITA_DOCKER_IMG: bedita/bedita:5
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'yarn'
@@ -115,13 +115,13 @@ jobs:
           filename: './coverage/clover.xml'
 
       - name: 'Export coverage results'
-        uses: 'codecov/codecov-action@v1'
+        uses: 'codecov/codecov-action@v3'
         with:
           file: './coverage/clover.xml'
           env_vars: NODE_VERSION
 
       - name: 'Archive code coverage results'
-        uses: 'actions/upload-artifact@v2'
+        uses: 'actions/upload-artifact@v3'
         with:
           name: 'NODE 18'
           path: './coverage/clover.xml'
@@ -130,21 +130,21 @@ jobs:
     needs: [test, coverage]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: bedita-sdk
           path: dist
 
-      - uses: cycjimmy/semantic-release-action@v2
+      - uses: cycjimmy/semantic-release-action@v3
         with:
           semantic_version: 19
           extra_plugins: |
