@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v2.0.0...v3.0.0-beta.1) (2023-02-02)
+
+
+### Features
+
+* **deps:** upgrade axios to v1 ([a650a4c](https://github.com/atlasconsulting/bedita-sdk-js/commit/a650a4c3408c18e22fe05e1f3a203d9bae555ddc))
+
+
+### BREAKING CHANGES
+
+* **deps:** upgrading axios to new major version can lead to broken code in apps using bedita-sdk
+
 # [2.0.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.3.0...v2.0.0) (2023-01-13)
 
 
