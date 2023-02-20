@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v2.0.0...v2.1.0) (2023-02-20)
+
+
+### Features
+
+* upload method ([d0d5108](https://github.com/atlasconsulting/bedita-sdk-js/commit/d0d5108c9dd1a27bfdf0f7c8fa4e5e35a7787b03))
+
 # [2.0.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v1.3.0...v2.0.0) (2023-01-13)
 
 
