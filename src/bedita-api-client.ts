@@ -533,7 +533,7 @@ export class BEditaApiClient {
 
     /**
      * Upload file creating the resource specified by type.
-     * If no file name is passed then it try to retriece from File object.
+     * If no file name is passed then it tries to get it from File object.
      *
      * @param file File|Blob to upload
      * @param type The resource type (streams, images, videos, files, audio)
