@@ -296,5 +296,7 @@ describe('BEditaApiClient', function() {
         const r = await this.client.get(`/files/${response.data?.data?.id}`);
         expect(r.data?.data?.meta?.media_url).to.be.exist;
         expect(r.data?.data?.attributes?.title).to.be.equal('example.txt');
+        expect(r.data?.included?.[0]?.attributes?.file_name).to.be.equal('example.txt');
+        expect(r.data?.included?.[0]?.attributes?.mime_type).to.be.equal('text/plain');
     });
 });
