@@ -91,6 +91,17 @@ export enum GrantType {
 }
 
 /**
+ * String enums for upload resource types.
+ */
+export enum UploadResourceType {
+    streams = 'streams',
+    images = 'images',
+    audio = 'audio',
+    video = 'videos',
+    files = 'files',
+}
+
+/**
  * Interface describing data used for auth action.
  */
 export interface AuthData {
@@ -518,5 +529,22 @@ export class BEditaApiClient {
         }
 
         return await this.post(`${type}`, body);
+    }
+
+    /**
+     * Upload file creating the resource specified by type.
+     * If no file name is passed then it try to retriece from File object.
+     *
+     * @param file File|Blob to upload
+     * @param type The resource type (streams, images, videos, files, audio)
+     * @param name The file name
+     * @param config Optional request configuration
+     */
+    public async upload(file: File|Blob, type: UploadResourceType, name?: string, config?: BEditaClientRequestConfig): Promise<BEditaClientResponse> {
+        name = encodeURIComponent(name || file?.name || Date.now());
+        config = { ...{ headers: {} }, ...config };
+        config.headers['Content-Type'] = file.type;
+
+        return await this.post(`/${type}/upload/${name}`, await file.arrayBuffer(), config);
     }
 }
