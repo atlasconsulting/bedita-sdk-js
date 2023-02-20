@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { BEditaApiClient } from '../src/bedita-api-client';
 import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index';
+import Blob from 'fetch-blob';
 
 describe('BEditaApiClient', function() {
 
@@ -285,5 +286,15 @@ describe('BEditaApiClient', function() {
         } catch(e) {
             expect(false).equals(true); // this line should not be executed
         }
+    });
+
+    it('test upload()', async function() {
+        const file = new Blob(['this is for test'], { type: 'text/plain' });
+        await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
+        const response = await this.client.upload(file, 'files', 'example.txt');
+
+        const r = await this.client.get(`/files/${response.data?.data?.id}`);
+        expect(r.data?.data?.meta?.media_url).to.be.exist;
+        expect(r.data?.data?.attributes?.title).to.be.equal('example.txt');
     });
 });
