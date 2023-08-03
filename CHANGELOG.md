@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.0.0...v3.1.0) (2023-08-03)
+
+
+### Features
+
+* add ApiProvider.has() method ([d2ad8b2](https://github.com/atlasconsulting/bedita-sdk-js/commit/d2ad8b2f63fae74a68f48edf7efaf70c03a67176))
+
 # [3.0.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v2.1.0...v3.0.0) (2023-08-03)
 
 
