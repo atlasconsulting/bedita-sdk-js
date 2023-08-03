@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
 import { MapIncludedInterceptor } from '../../src/interceptors/map-included-interceptor';
 
@@ -10,7 +10,9 @@ describe('MapIncludedInterceptor', function() {
             status: 200,
             statusText: 'ok',
             headers: {},
-            config: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
             data: {
                 data: [
                     {
@@ -77,7 +79,9 @@ describe('MapIncludedInterceptor', function() {
             status: 200,
             statusText: 'ok',
             headers: {},
-            config: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
             data,
         };
 
@@ -93,7 +97,9 @@ describe('MapIncludedInterceptor', function() {
             status: 200,
             statusText: 'ok',
             headers: {},
-            config: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
             data: {
                 data: [
                     {
