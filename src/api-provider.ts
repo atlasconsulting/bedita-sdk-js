@@ -19,7 +19,7 @@ export default class ApiProvider {
      * @param config The configuration to use for create new client.
      */
     public static get(name: string, config?: ApiClientConfig): BEditaApiClient {
-        if (this.#registry[name]) {
+        if (this.has(name)) {
             return this.#registry[name];
         }
 
@@ -31,6 +31,19 @@ export default class ApiProvider {
         this.#registry[name] = new BEditaApiClient(config);
 
         return this.#registry[name];
+    }
+
+    /**
+     * Return `true` if an API client with that `name` is in the registry.
+     *
+     * @param name  The name of registered API client
+     */
+    public static has(name: string): boolean {
+        if (this.#registry[name]) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -27,4 +27,12 @@ describe('ApiProvider', function() {
         ApiProvider.remove('whatever'); // do nothing
         expect('https://example.com').to.equal(client.getConfig('baseUrl'));
     });
+
+    it('check if api client is in the registry', function() {
+        expect(ApiProvider.has('anotherApi')).to.be.false;
+        ApiProvider.get('anotherApi', { baseUrl: 'https://example.com'});
+        expect(ApiProvider.has('anotherApi')).to.be.true;
+        ApiProvider.remove('anotherApi');
+        expect(ApiProvider.has('anotherApi')).to.be.false;
+    });
 });
