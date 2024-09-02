@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.1.1...v3.1.2) (2024-09-02)
+
+
+### Bug Fixes
+
+* upgrade axios for security issue ([6995368](https://github.com/atlasconsulting/bedita-sdk-js/commit/699536832f6aaf8b802d9d7b19f4408d0d90dcaf))
+
 ## [3.1.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.1.0...v3.1.1) (2023-11-13)
 
 
