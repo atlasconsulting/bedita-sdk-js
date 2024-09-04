@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'yarn'
 
       - name: Install dependencies
@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: bedita-sdk
           path: dist
@@ -38,7 +38,7 @@ jobs:
       BEDITA_DOCKER_IMG: bedita/bedita:5
     strategy:
       matrix:
-        node-version: [14, 16, 18]
+        node-version: [18, 20, 22]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 20
           cache: 'yarn'
 
       - name: 'Docker pull bedita image'
@@ -121,9 +121,9 @@ jobs:
           env_vars: NODE_VERSION
 
       - name: 'Archive code coverage results'
-        uses: 'actions/upload-artifact@v3'
+        uses: 'actions/upload-artifact@v4'
         with:
-          name: 'NODE 18'
+          name: 'NODE 20'
           path: './coverage/clover.xml'
 
   release:
@@ -133,13 +133,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: bedita-sdk
           path: dist
