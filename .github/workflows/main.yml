@@ -160,7 +160,7 @@ jobs:
           name: bedita-sdk
           path: dist
 
-      - uses: cycjimmy/semantic-release-action@v3
+      - uses: cycjimmy/semantic-release-action@v4
         with:
           semantic_version: 19
           extra_plugins: |
