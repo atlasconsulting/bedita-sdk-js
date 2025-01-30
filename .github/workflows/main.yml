@@ -131,7 +131,7 @@ jobs:
           filename: './coverage/clover.xml'
 
       - name: 'Export coverage results'
-        uses: 'codecov/codecov-action@v3'
+        uses: 'codecov/codecov-action@v5'
         with:
           file: './coverage/clover.xml'
           env_vars: NODE_VERSION
