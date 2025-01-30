@@ -3,8 +3,24 @@ name: Main
 on:
   push:
     branches: [ main, beta, 1.x ]
+    paths:
+      - '**/*.ts'
+      - '.github/workflows/main.yml'
+      - '.eslintrc'
+      - '.scrutinizer.yml'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'yarn.lock'
   pull_request:
     branches: [ main, beta, 1.x ]
+    paths:
+      - '**/*.ts'
+      - '.github/workflows/main.yml'
+      - '.eslintrc'
+      - '.scrutinizer.yml'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'yarn.lock'
 
 jobs:
   build:
