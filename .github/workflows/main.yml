@@ -133,7 +133,8 @@ jobs:
       - name: 'Export coverage results'
         uses: 'codecov/codecov-action@v5'
         with:
-          file: './coverage/clover.xml'
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+          files: './coverage/clover.xml'
           env_vars: NODE_VERSION
 
       - name: 'Archive code coverage results'
