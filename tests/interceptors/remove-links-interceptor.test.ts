@@ -57,7 +57,27 @@ describe('RemoveLinksInterceptor', function() {
                             revision: '123456789',
                         },
                     },
-                }
+                },
+                included: [
+                    {
+                        id: 12,
+                        type: 'images',
+                        attributes: {
+                            title: 'Image number one',
+                        },
+                        links: {
+                            self: 'https://api.example.com/images/12',
+                        },
+                        relationships: {
+                            attached_to: {
+                                links: {
+                                    related: 'https://api.example.com/images/12/attached_to',
+                                    self: 'https://api.example.com/images/12/relationships/attached_to',
+                                },
+                            },
+                        },
+                    },
+                ],
             },
         };
 
@@ -69,6 +89,11 @@ describe('RemoveLinksInterceptor', function() {
             expect(d).to.not.have.property('links');
             expect(d?.relationships?.attach).to.not.have.property('links');
             expect(d?.relationships?.poster).to.not.have.property('links');
+        });
+
+        response.data.included?.forEach((d: JsonApiResourceObject) => {
+            expect(d).to.not.have.property('links');
+            expect(d?.relationships?.attached_to).to.not.have.property('links');
         });
     });
 });

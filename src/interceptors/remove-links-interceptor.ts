@@ -17,6 +17,9 @@ export default class RemoveLinksInterceptor extends ResponseInterceptor {
         delete response.data?.links;
         delete response.data?.meta?.schema;
         response.data.data = this.removeLinks(response.data.data);
+        if (response.data?.included) {
+            response.data.included = this.removeLinks(response.data.included);
+        }
 
         return Promise.resolve(response);
     }
