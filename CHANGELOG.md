@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.1.2...v3.2.0) (2025-02-26)
+
+
+### Features
+
+* add RemoveLinksInterceptor ([72daafa](https://github.com/atlasconsulting/bedita-sdk-js/commit/72daafa6e29a09d02a19093efdac47f744d1f2ea))
+
 ## [3.1.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.1.1...v3.1.2) (2024-09-02)
 
 
