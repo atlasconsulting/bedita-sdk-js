@@ -77,6 +77,11 @@ A set of default interceptor are always used:
 * `ContentTypeInterceptor` set default content type if no one is passed
 * `RefreshAuthInterceptor` is responsible for refreshing the access token when expired
 
+Other optional interceptor that can be used are:
+
+* `RemoveLinksInterceptor` remove the `links` attribute from the response
+* `MapIncludedInterceptor` embed `included` resource inside the related `relationships` attribute
+
 An interceptor can be added to the client or to a request.
 When added to the client it will be used unless it was removed.
 
