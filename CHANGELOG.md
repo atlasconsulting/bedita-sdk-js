@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.2.0...v3.2.1) (2025-02-26)
+
+
+### Bug Fixes
+
+* export RemoveLinksInterceptor ([1e85b07](https://github.com/atlasconsulting/bedita-sdk-js/commit/1e85b07c719fe2de26b0e928de0b36022b02e330))
+
 # [3.2.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.1.2...v3.2.0) (2025-02-26)
 
 
