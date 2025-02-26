@@ -6,7 +6,7 @@ import { BEditaClientResponse, JsonApiResourceObject } from "../bedita-api-clien
 /**
  * Remove links attribute from JSON API response.
  */
-export class RemoveLinksInterceptor extends ResponseInterceptor {
+export default class RemoveLinksInterceptor extends ResponseInterceptor {
 
     /**
      * Remove links from JSON API response.
