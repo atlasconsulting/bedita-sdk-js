@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
-import { RemoveLinksInterceptor } from '../../src/interceptors/remove-links-interceptor';
+import RemoveLinksInterceptor from '../../src/interceptors/remove-links-interceptor';
 import { BEditaApiClient, JsonApiResourceObject } from '../../src/bedita-api-client';
 
 describe('RemoveLinksInterceptor', function() {
