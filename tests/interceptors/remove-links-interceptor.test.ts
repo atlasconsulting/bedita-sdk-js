@@ -1,13 +1,12 @@
 import { AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
 import RemoveLinksInterceptor from '../../src/interceptors/remove-links-interceptor';
-import { BEditaApiClient, JsonApiResourceObject } from '../../src/bedita-api-client';
+import { JsonApiResourceObject } from '../../src/bedita-api-client';
 
 describe('RemoveLinksInterceptor', function() {
 
     it('test that links are removed from response', async function() {
-        const client = new BEditaApiClient({ baseUrl: 'https://example.com'});
-        const interceptor = new RemoveLinksInterceptor(client);
+        const interceptor = new RemoveLinksInterceptor()
         const initialResponse: AxiosResponse = {
             status: 200,
             statusText: 'ok',
@@ -95,5 +94,53 @@ describe('RemoveLinksInterceptor', function() {
             expect(d).to.not.have.property('links');
             expect(d?.relationships?.attached_to).to.not.have.property('links');
         });
+    });
+
+    it('test response is the same if data undefined', async function() {
+        const interceptor = new RemoveLinksInterceptor();
+        const initialResponse: AxiosResponse = {
+            status: 200,
+            statusText: 'ok',
+            headers: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
+            data: undefined,
+        };
+
+        const response = await interceptor.responseHandler(initialResponse);
+        expect(response.data).to.be.deep.equal(initialResponse.data);
+    });
+
+    it('test response is the same if data empty object', async function() {
+        const interceptor = new RemoveLinksInterceptor();
+        const initialResponse: AxiosResponse = {
+            status: 200,
+            statusText: 'ok',
+            headers: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
+            data: {},
+        };
+
+        const response = await interceptor.responseHandler(initialResponse);
+        expect(response.data).to.be.deep.equal(initialResponse.data);
+    });
+
+    it('test response is the same if data is a string', async function() {
+        const interceptor = new RemoveLinksInterceptor();
+        const initialResponse: AxiosResponse = {
+            status: 200,
+            statusText: 'ok',
+            headers: {},
+            config: {
+                headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+            },
+            data: 'Gustavo',
+        };
+
+        const response = await interceptor.responseHandler(initialResponse);
+        expect(response.data).to.be.deep.equal(initialResponse.data);
     });
 });
