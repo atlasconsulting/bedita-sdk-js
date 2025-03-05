@@ -1,3 +1,10 @@
+## [3.2.3](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.2.2...v3.2.3) (2025-03-05)
+
+
+### Bug Fixes
+
+* **interceptor:** check data before remove links ([6bc7a8e](https://github.com/atlasconsulting/bedita-sdk-js/commit/6bc7a8e96b783f9053d21e856a72a00908f76a9c))
+
 ## [3.2.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.2.1...v3.2.2) (2025-02-26)
 
 
