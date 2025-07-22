@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.2.3...v3.3.0) (2025-07-22)
+
+
+### Features
+
+* **deps:** require axios 1.10 ([9937f6f](https://github.com/atlasconsulting/bedita-sdk-js/commit/9937f6f594dc965e315be09b20564fc6b3cb1817))
+
 ## [3.2.3](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.2.2...v3.2.3) (2025-03-05)
 
 
