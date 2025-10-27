@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: bedita-sdk
           path: dist
@@ -138,7 +138,7 @@ jobs:
           env_vars: NODE_VERSION
 
       - name: 'Archive code coverage results'
-        uses: 'actions/upload-artifact@v4'
+        uses: 'actions/upload-artifact@v5'
         with:
           name: 'NODE 24'
           path: './coverage/clover.xml'
@@ -156,7 +156,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: bedita-sdk
           path: dist
