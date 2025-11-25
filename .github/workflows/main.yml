@@ -86,6 +86,48 @@ jobs:
       - name: Test
         run: yarn test
 
+  test-bedita-6:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      BEDITA_API_KEY: 1234567890
+      BEDITA_API: http://localhost:8090
+      BEDITA_ADMIN_USR: admin
+      BEDITA_ADMIN_PWD: admin
+      BEDITA_DOCKER_IMG: bedita/bedita:6
+    strategy:
+      matrix:
+        node-version: [24]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '${{ matrix.node-version }}'
+          cache: 'yarn'
+
+      - name: 'Docker pull bedita image'
+        run: 'docker pull ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Docker inspect bedita image'
+        run: 'docker inspect ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Docker run bedita image'
+        run: 'docker run --name api -d -p 8090:80 --env BEDITA_API_KEY=${BEDITA_API_KEY} --env BEDITA_ADMIN_USR=${BEDITA_ADMIN_USR} --env BEDITA_ADMIN_PWD=${BEDITA_ADMIN_PWD} ${BEDITA_DOCKER_IMG}'
+
+      - name: 'Wait for 10'
+        run: 'sleep 10'
+
+      - name: 'Docker ps - show all containers'
+        run: 'docker ps -a'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Linter
+        run: yarn lint
+
+      - name: Test
+        run: yarn test
   coverage:
     needs: build
     runs-on: ubuntu-latest
