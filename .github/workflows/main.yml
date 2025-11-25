@@ -51,10 +51,11 @@ jobs:
       BEDITA_API: http://localhost:8090
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
-      BEDITA_DOCKER_IMG: bedita/bedita:5
+      BEDITA_DOCKER_IMG: 'bedita/bedita:${{ matrix.bedita-version }}'
     strategy:
       matrix:
         node-version: [20, 22, 24]
+        bedita-version: [5, 6]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -94,7 +95,10 @@ jobs:
       BEDITA_API: http://localhost:8090
       BEDITA_ADMIN_USR: admin
       BEDITA_ADMIN_PWD: admin
-      BEDITA_DOCKER_IMG: bedita/bedita:5
+      BEDITA_DOCKER_IMG: 'bedita/bedita:${{ matrix.bedita-version }}'
+    strategy:
+      matrix:
+        bedita-version: [5, 6]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -140,7 +144,7 @@ jobs:
       - name: 'Archive code coverage results'
         uses: 'actions/upload-artifact@v5'
         with:
-          name: 'NODE 24'
+          name: 'coverage-bedita-${{ matrix.bedita-version }}'
           path: './coverage/clover.xml'
 
   release:
