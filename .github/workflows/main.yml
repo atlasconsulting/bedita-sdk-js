@@ -22,10 +22,6 @@ on:
       - 'tsconfig.json'
       - 'yarn.lock'
 
-permissions:
-  id-token: write  # Required for OIDC
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -153,6 +149,9 @@ jobs:
 
   release:
     needs: [test, coverage]
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -171,7 +170,7 @@ jobs:
 
       - uses: cycjimmy/semantic-release-action@v6
         with:
-          semantic_version: 24
+          semantic_version: 25
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/git
