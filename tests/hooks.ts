@@ -1,4 +1,4 @@
-import { BEditaApiClient } from '../src/bedita-api-client';
+import { BEditaApiClient } from '../src/bedita-api-client.js';
 
 export const mochaHooks = {
     beforeEach(done) {

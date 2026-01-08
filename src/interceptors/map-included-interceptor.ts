@@ -1,6 +1,6 @@
 import { ResponseInterceptorInterface } from './response-interceptor';
 import { AxiosResponse } from 'axios';
-import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../bedita-api-client';
+import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api';
 
 /**
  * Interface for MapIncludedInterceptor configuration.

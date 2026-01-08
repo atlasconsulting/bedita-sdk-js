@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import LocalStorageAdapter from '../../../src/services/adapters/local-storage-adapter';
+import LocalStorageAdapter from '../../../src/services/adapters/local-storage-adapter.js';
 
 describe('LocalStorageAdapter', function() {
 

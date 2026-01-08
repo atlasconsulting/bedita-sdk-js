@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { LocalStorageAdapter } from '../../src';
-import StorageService from '../../src/services/storage-service';
+import { LocalStorageAdapter } from '../../src/index.js';
+import StorageService from '../../src/services/storage-service.js';
 
 describe('StorageService', function() {
 

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
-import { GrantType } from '../bedita-api-client';
 import RequestInterceptor from './request-interceptor';
+import { GrantType } from '../types/api';
 
 /**
  * Auth interceptor.

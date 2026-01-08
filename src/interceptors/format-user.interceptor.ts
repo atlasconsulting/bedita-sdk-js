@@ -1,6 +1,6 @@
 import ResponseInterceptor from './response-interceptor';
 import { AxiosResponse } from 'axios';
-import { ApiResponseBodyOk, BEditaClientResponse } from '../bedita-api-client';
+import { ApiResponseBodyOk, BEditaClientResponse } from '../types/api';
 
 /**
  * Formatter interceptor for user data.

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import MemoryStorageAdapter from '../../../src/services/adapters/memory-storage-adapter';
+import MemoryStorageAdapter from '../../../src/services/adapters/memory-storage-adapter.js';
 
 describe('MemoryStorageAdapter', function() {
 

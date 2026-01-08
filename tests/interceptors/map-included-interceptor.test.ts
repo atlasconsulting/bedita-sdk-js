@@ -1,6 +1,6 @@
 import { AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
-import { MapIncludedInterceptor } from '../../src/interceptors/map-included-interceptor';
+import { MapIncludedInterceptor } from '../../src/interceptors/map-included-interceptor.js';
 
 describe('MapIncludedInterceptor', function() {
 

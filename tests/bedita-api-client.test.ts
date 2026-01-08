@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { BEditaApiClient } from '../src/bedita-api-client';
-import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index';
-import Blob from 'fetch-blob';
+import { BEditaApiClient } from '../src/bedita-api-client.js';
+import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index.js';
+import { Blob } from 'fetch-blob';
 
 describe('BEditaApiClient', function() {
 

@@ -1,117 +1,15 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse }  from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig }  from 'axios';
 import AuthInterceptor from './interceptors/auth-interceptor';
 import RefreshAuthInterceptor from './interceptors/refresh-auth-interceptor';
 import StorageService from './services/storage-service';
 import FormatUserInterceptor from './interceptors/format-user.interceptor';
 import ContentTypeInterceptor from './interceptors/content-type-interceptor';
-import { RequestInterceptorInterface } from './interceptors/request-interceptor';
-import { ResponseInterceptorInterface } from './interceptors/response-interceptor';
 import { MapIncludedInterceptor } from './interceptors/map-included-interceptor';
-import StorageAdapterInterface from './services/adapters/storage-adapter-interface';
 import LocalStorageAdapter from './services/adapters/local-storage-adapter';
+import { ApiClientConfig, AuthData, BEditaClientRequestConfig, BEditaClientResponse, GrantType, JsonApiResourceObject, UploadResourceType } from './types/api';
+import { RequestInterceptorInterface, ResponseInterceptorInterface } from './types/interceptor';
 
-/**
- * Interface for API client configuration.
- *
- * - baseUrl: the BEdita API base URL
- * - apiKey: the API KEY to use (optional). Deprecated, you are encouraged to use `clientId` and `clientSecret` instead.
- * - name: the name of the client instance (optional, default 'bedita')
- * - clientId: the client id used for client credentials flow (optional)
- * - clientSecret: the client secret used for client credentials flow (optional)
- * - storageAdapter: the adapter used by storage service
- */
-export interface ApiClientConfig {
-    baseUrl: string,
-    apiKey?: string,
-    name?: string,
-    clientId?: string,
-    clientSecret?: string,
-    storageAdapter?: StorageAdapterInterface,
-}
 
-/**
- * Interface of JSON API resource object
- *
- * see https://jsonapi.org/format/#document-resource-objects
- */
-export interface JsonApiResourceObject {
-    type: string,
-    id?: string,
-    attributes?: { [s: string]: any },
-    relationships?:  { [s: string]: any },
-    links?: { [s: string]: any },
-    meta?:  { [s: string]: any },
-}
-
-/**
- * Interface for a successfully API response body.
- */
-export interface ApiResponseBodyOk {
-    data: JsonApiResourceObject | JsonApiResourceObject[],
-    meta: { [s: string]: any },
-    links?: { [s: string]: any },
-    included?: JsonApiResourceObject[],
-}
-
-/**
- * Interface for a errored API response body.
- */
-export interface ApiResponseBodyError {
-    error: { [s: string]: any },
-    links?: { [s: string]: any },
-    meta?: { [s: string]: any },
-}
-
-/**
- * Interface for configuration used for BEdita API requests.
- * Extends AxiosRequestConfig adding configuration for
- * dynamic uses of request and response interceptors.
- */
-export interface BEditaClientRequestConfig extends AxiosRequestConfig {
-    requestInterceptors?: RequestInterceptorInterface[],
-    responseInterceptors?: ResponseInterceptorInterface[],
-}
-
-/**
- * Interface of BEdita client response.
- * It extends AxiosResponse adding an optional `formatData`
- * that can be used to store fromatted data.
- */
-export interface BEditaClientResponse<T = any> extends AxiosResponse {
-    formattedData?: T;
-}
-
-/**
- * String enums for grant types.
- */
-export enum GrantType {
-    Password = 'password',
-    ClientCredentials = 'client_credentials',
-    RefreshToken = 'refresh_token',
-}
-
-/**
- * String enums for upload resource types.
- */
-export enum UploadResourceType {
-    streams = 'streams',
-    images = 'images',
-    audio = 'audio',
-    video = 'videos',
-    files = 'files',
-}
-
-/**
- * Interface describing data used for auth action.
- */
-export interface AuthData {
-    username?: string,
-    password?: string,
-    client_id?: string,
-    client_secret?: string,
-    [s: string]: any,
-    grant_type: GrantType | string,
-}
 
 /**
  * BEdita API client.
@@ -541,7 +439,7 @@ export class BEditaApiClient {
      * @param config Optional request configuration
      */
     public async upload(file: File|Blob, type: UploadResourceType, name?: string, config?: BEditaClientRequestConfig): Promise<BEditaClientResponse> {
-        name = encodeURIComponent(name || file?.name || Date.now());
+        name = encodeURIComponent(name || (file instanceof File ? file.name : null) || Date.now());
         config = { ...{ headers: {} }, ...config };
         config.headers['Content-Type'] = file.type;
 
