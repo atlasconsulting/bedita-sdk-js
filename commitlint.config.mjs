@@ -1,7 +1,5 @@
-/*global module*/
-/*eslint no-undef: "error"*/
-module.exports = {
-    extends: ['@commitlint/config-angular'],
+export default {
+    extends: ['@commitlint/config-conventional'],
     rules: {
         'type-enum': [
             2,

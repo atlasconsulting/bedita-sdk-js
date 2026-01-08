@@ -1,49 +1,50 @@
 {
-    "name": "@atlasconsulting/bedita-sdk",
-    "version": "3.3.1",
-    "description": "A simple BEdita SDK based on axios",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/atlasconsulting/bedita-sdk-js.git"
-    },
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "files": [
-        "dist"
-    ],
-    "scripts": {
-        "build": "./node_modules/.bin/tsc",
-        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
-        "coverage": "c8 yarn run test",
-        "lint": "eslint . --ext .ts",
-        "prepare": "husky install"
-    },
-    "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
-    "license": "MIT",
-    "publishConfig": {
-        "access": "public"
-    },
-    "dependencies": {
-        "axios": "^1.12.0",
-        "tslib": "^2.5.0"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^17.4.2",
-        "@commitlint/config-angular": "^17.4.2",
-        "@types/chai": "^4.3.4",
-        "@types/mocha": "^10.0.1",
-        "@types/node": "^18.11.18",
-        "@typescript-eslint/eslint-plugin": "^5.49.0",
-        "@typescript-eslint/parser": "^5.49.0",
-        "c8": "^7.12.0",
-        "chai": "^4.3.7",
-        "eslint": "^8.33.0",
-        "fetch-blob": "v2",
-        "husky": "^8.0.3",
-        "mocha": "^10.2.0",
-        "mock-local-storage": "^1.1.23",
-        "source-map-support": "^0.5.21",
-        "ts-node": "^10.9.1",
-        "typescript": "^4.9.5"
-    }
+  "name": "@atlasconsulting/bedita-sdk",
+  "version": "3.3.1",
+  "description": "A simple BEdita SDK based on axios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atlasconsulting/bedita-sdk-js.git"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' TS_NODE_PROJECT='./tsconfig.test.json' mocha --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
+    "coverage": "c8 npm run test",
+    "lint": "eslint",
+    "prepare": "husky"
+  },
+  "author": "Atlas <dev@atlasconsulting.it> (https://atlasconsulting.it)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-angular": "^20.3.0",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^24.10.4",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
+    "c8": "^7.12.0",
+    "chai": "^4.3.7",
+    "eslint": "^9.39.2",
+    "fetch-blob": "4.0.0",
+    "husky": "^9.1.7",
+    "mocha": "^10.2.0",
+    "mock-local-storage": "^1.1.23",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.9.3"
+  }
 }
