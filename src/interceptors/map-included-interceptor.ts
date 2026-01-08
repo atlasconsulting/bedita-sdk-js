@@ -1,4 +1,4 @@
-import { ResponseInterceptorInterface } from './response-interceptor';
+import { ResponseInterceptorInterface } from '../types/interceptor';
 import { AxiosResponse } from 'axios';
 import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api';
 
