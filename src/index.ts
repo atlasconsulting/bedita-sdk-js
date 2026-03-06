@@ -7,10 +7,12 @@ export { default as FormatUserInterceptor } from './interceptors/format-user.int
 export { default as RemoveLinksInterceptor } from './interceptors/remove-links-interceptor';
 export * from './interceptors/map-included-interceptor';
 export { default as RefreshAuthInterceptor } from './interceptors/refresh-auth-interceptor'
-export { default as RequestInterceptor, RequestInterceptorInterface } from './interceptors/request-interceptor';
-export { default as ResponseInterceptor, ResponseInterceptorInterface } from './interceptors/response-interceptor';
+export { default as RequestInterceptor } from './interceptors/request-interceptor';
+export { default as ResponseInterceptor } from './interceptors/response-interceptor';
 export { default as StorageService } from './services/storage-service';
 export { default as StorageAdapterInterface } from './services/adapters/storage-adapter-interface';
 export { default as LocalStorageAdapter } from './services/adapters/local-storage-adapter';
 export { default as MemoryStorageAdapter } from './services/adapters/memory-storage-adapter';
+export * from './types/index';
+export * from './api-helpers';
 /* c8 ignore stop */

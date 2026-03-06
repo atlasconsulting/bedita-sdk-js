@@ -1,17 +1,17 @@
 {
-    "compilerOptions": {
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "noImplicitAny": false,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "declaration": true,
-        "outDir": "./dist",
-        "sourceMap": true,
-        "target": "es2015",
-        "importHelpers": true,
-        "esModuleInterop": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "target": "es2015",
+    "importHelpers": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

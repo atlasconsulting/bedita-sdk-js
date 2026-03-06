@@ -30,13 +30,13 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - uses: actions/upload-artifact@v6
         with:
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '${{ matrix.node-version }}'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: 'Docker pull bedita image'
         run: 'docker pull ${BEDITA_DOCKER_IMG}'
@@ -79,13 +79,13 @@ jobs:
         run: 'docker ps -a'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Linter
-        run: yarn lint
+        run: npm run lint
 
       - name: Test
-        run: yarn test
+        run: npm run test
 
   coverage:
     needs: build
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: 'Docker pull bedita image'
         run: 'docker pull ${BEDITA_DOCKER_IMG}'
@@ -122,10 +122,10 @@ jobs:
         run: 'docker ps -a'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Coverage
-        run: yarn coverage
+        run: npm run coverage
 
       - name: Check test coverage
         id: test-coverage
@@ -158,10 +158,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - uses: actions/download-artifact@v7
         with:
