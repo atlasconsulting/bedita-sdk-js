@@ -14,4 +14,5 @@ export { default as StorageAdapterInterface } from './services/adapters/storage-
 export { default as LocalStorageAdapter } from './services/adapters/local-storage-adapter';
 export { default as MemoryStorageAdapter } from './services/adapters/memory-storage-adapter';
 export * from './types/index';
+export * from './api-helpers';
 /* c8 ignore stop */

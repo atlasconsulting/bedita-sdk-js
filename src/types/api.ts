@@ -8,12 +8,12 @@ import { StorageAdapterInterface } from "./service";
  * see https://jsonapi.org/format/#document-resource-objects
  */
 export interface JsonApiResourceObject<T extends string = string> {
-    type: T,
-    id?: string,
-    attributes?: { [s: string]: any },
-    relationships?:  { [s: string]: any },
-    links?: { [s: string]: any },
-    meta?:  { [s: string]: any },
+  type: T,
+  id?: string,
+  attributes?: { [s: string]: any },
+  relationships?:  { [s: string]: any },
+  links?: { [s: string]: any },
+  meta?:  { [s: string]: any },
 }
 
 /**
@@ -39,31 +39,31 @@ export interface JsonApiResourceFlat<T extends string = string> {
  * - storageAdapter: the adapter used by storage service
  */
 export interface ApiClientConfig {
-    baseUrl: string,
-    apiKey?: string,
-    name?: string,
-    clientId?: string,
-    clientSecret?: string,
-    storageAdapter?: StorageAdapterInterface,
+  baseUrl: string,
+  apiKey?: string,
+  name?: string,
+  clientId?: string,
+  clientSecret?: string,
+  storageAdapter?: StorageAdapterInterface,
 }
 
 /**
  * Interface for a successfully API response body.
  */
 export interface ApiResponseBodyOk {
-    data: JsonApiResourceObject | JsonApiResourceObject[],
-    meta: { [s: string]: any },
-    links?: { [s: string]: any },
-    included?: JsonApiResourceObject[],
+  data: JsonApiResourceObject | JsonApiResourceObject[],
+  meta: { [s: string]: any },
+  links?: { [s: string]: any },
+  included?: JsonApiResourceObject[],
 }
 
 /**
  * Interface for a errored API response body.
  */
 export interface ApiResponseBodyError {
-    error: { [s: string]: any },
-    links?: { [s: string]: any },
-    meta?: { [s: string]: any },
+  error: { [s: string]: any },
+  links?: { [s: string]: any },
+  meta?: { [s: string]: any },
 }
 
 /**
@@ -72,47 +72,47 @@ export interface ApiResponseBodyError {
  * dynamic uses of request and response interceptors.
  */
 export interface BEditaClientRequestConfig extends AxiosRequestConfig {
-    requestInterceptors?: RequestInterceptorInterface[],
-    responseInterceptors?: ResponseInterceptorInterface[],
+  requestInterceptors?: RequestInterceptorInterface[],
+  responseInterceptors?: ResponseInterceptorInterface[],
 }
 
 /**
  * Interface of BEdita client response.
  * It extends AxiosResponse adding an optional `formatData`
- * that can be used to store fromatted data.
+ * that can be used to store formatted data.
  */
 export interface BEditaClientResponse<T = unknown> extends AxiosResponse {
-    formattedData?: T;
+  formattedData?: T;
 }
 
 /**
  * String enums for grant types.
  */
 export enum GrantType {
-    Password = 'password',
-    ClientCredentials = 'client_credentials',
-    RefreshToken = 'refresh_token',
+  Password = 'password',
+  ClientCredentials = 'client_credentials',
+  RefreshToken = 'refresh_token',
 }
 
 /**
  * String enums for upload resource types.
  */
 export enum UploadResourceType {
-    streams = 'streams',
-    images = 'images',
-    audio = 'audio',
-    video = 'videos',
-    files = 'files',
+  streams = 'streams',
+  images = 'images',
+  audio = 'audio',
+  video = 'videos',
+  files = 'files',
 }
 
 /**
  * Interface describing data used for auth action.
  */
 export interface AuthData {
-    username?: string,
-    password?: string,
-    client_id?: string,
-    client_secret?: string,
-    [s: string]: any,
-    grant_type: GrantType | string,
+  username?: string,
+  password?: string,
+  client_id?: string,
+  client_secret?: string,
+  [s: string]: any,
+  grant_type: GrantType | string,
 }

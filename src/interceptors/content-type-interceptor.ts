@@ -7,21 +7,21 @@ import RequestInterceptor from './request-interceptor';
  */
 export default class ContentTypeInterceptor extends RequestInterceptor {
 
-    /**
-     * Default Content Type header
-     */
-    readonly CONTENT_TYPE_HEADER = { 'Content-Type': 'application/json' };
+  /**
+   * Default Content Type header
+   */
+  readonly CONTENT_TYPE_HEADER = { 'Content-Type': 'application/json' };
 
-    /**
-     * If missing from headers and the request has body then add json content type.
-     *
-     * @param config The axios request config
-     */
-    public requestHandler(config: AxiosRequestConfig) {
-        if (config.data) {
-            config.headers = {...this.CONTENT_TYPE_HEADER, ...config.headers};
-        }
-
-        return Promise.resolve(config);
+  /**
+   * If missing from headers and the request has body then add json content type.
+   *
+   * @param config The axios request config
+   */
+  public requestHandler(config: AxiosRequestConfig) {
+    if (config.data) {
+      config.headers = {...this.CONTENT_TYPE_HEADER, ...config.headers};
     }
+
+    return Promise.resolve(config);
+  }
 }
