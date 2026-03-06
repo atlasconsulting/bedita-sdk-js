@@ -1,14 +1,17 @@
 import { ResponseInterceptorInterface } from '../types/interceptor';
 import { AxiosResponse } from 'axios';
 import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api';
+import { flattenJsonApiResource } from '../api-helpers';
 
 /**
  * Interface for MapIncludedInterceptor configuration.
  *
  * - replaceWithTranslation: translation language (replace main objects fields with translated fields if not empty)
+ * - flatten: flatten all objects merging attributes, meta and relationships at root level
  */
 export interface MapIncludedConfig {
   replaceWithTranslation?: string,
+  flatten?: boolean,
 }
 
 /**
@@ -94,8 +97,16 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
       data = this.prepareData(data, included);
     }
 
+    if (this.#config?.flatten) {
+      if (Array.isArray(data)) {
+        data = data.map(d => flattenJsonApiResource(d));
+      } else {
+        data = flattenJsonApiResource(data);
+      }
+    }
+
     const beditaResponse = response as BEditaClientResponse;
-    beditaResponse.formattedData = {data};
+    beditaResponse.formattedData = { data };
 
     return Promise.resolve(beditaResponse);
   }
