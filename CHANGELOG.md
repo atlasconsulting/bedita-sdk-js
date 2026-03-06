@@ -1,3 +1,23 @@
+# [4.0.0-beta.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.3.2...v4.0.0-beta.1) (2026-03-06)
+
+
+### Bug Fixes
+
+* security axios upgrade ([c58c2e3](https://github.com/atlasconsulting/bedita-sdk-js/commit/c58c2e3aaaa9eaf6a165d4be49cb518d07beeea7))
+* wrong import ([9bc1322](https://github.com/atlasconsulting/bedita-sdk-js/commit/9bc1322713558f6bd150cf527ccfb2d6cf99deb9))
+
+
+### Features
+
+* add flatten option to MapIncludedInterceptor ([af8efcf](https://github.com/atlasconsulting/bedita-sdk-js/commit/af8efcfe2fae0284a523f53f706f42156265247d))
+* add helpers to flatten, exapand JSON api resource ([d7bf084](https://github.com/atlasconsulting/bedita-sdk-js/commit/d7bf084a271b9c829ac759e044361165cc30961b))
+* upgrade deps ([4753e6b](https://github.com/atlasconsulting/bedita-sdk-js/commit/4753e6b771d14314983cc5ef541f4ea67bfb986c))
+
+
+### BREAKING CHANGES
+
+* refresh all deps
+
 ## [3.3.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.3.1...v3.3.2) (2026-03-06)
 
 
