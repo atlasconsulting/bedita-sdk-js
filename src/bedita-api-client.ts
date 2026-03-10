@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig }  from 'axios';
 import AuthInterceptor from './interceptors/auth-interceptor';
 import RefreshAuthInterceptor from './interceptors/refresh-auth-interceptor';
 import StorageService from './services/storage-service';
-import FormatUserInterceptor from './interceptors/format-user.interceptor';
+import FormatUserInterceptor from './interceptors/format-user-interceptor';
 import ContentTypeInterceptor from './interceptors/content-type-interceptor';
 import { MapIncludedInterceptor } from './interceptors/map-included-interceptor';
 import LocalStorageAdapter from './services/adapters/local-storage-adapter';
