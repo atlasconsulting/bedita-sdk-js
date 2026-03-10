@@ -1,4 +1,4 @@
-import ResponseInterceptor from './response-interceptor'
+import ResponseInterceptor from './response-interceptor.js'
 import { AxiosResponse } from 'axios';
 
 /**

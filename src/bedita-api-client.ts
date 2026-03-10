@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, AxiosRequestConfig }  from 'axios';
-import AuthInterceptor from './interceptors/auth-interceptor';
-import RefreshAuthInterceptor from './interceptors/refresh-auth-interceptor';
-import StorageService from './services/storage-service';
-import FormatUserInterceptor from './interceptors/format-user-interceptor';
-import ContentTypeInterceptor from './interceptors/content-type-interceptor';
-import { MapIncludedInterceptor } from './interceptors/map-included-interceptor';
-import LocalStorageAdapter from './services/adapters/local-storage-adapter';
-import { ApiClientConfig, AuthData, BEditaClientRequestConfig, BEditaClientResponse, GrantType, JsonApiResourceObject, UploadResourceType } from './types/api';
-import { RequestInterceptorInterface, ResponseInterceptorInterface } from './types/interceptor';
+import AuthInterceptor from './interceptors/auth-interceptor.js';
+import RefreshAuthInterceptor from './interceptors/refresh-auth-interceptor.js';
+import StorageService from './services/storage-service.js';
+import FormatUserInterceptor from './interceptors/format-user-interceptor.js';
+import ContentTypeInterceptor from './interceptors/content-type-interceptor.js';
+import { MapIncludedInterceptor } from './interceptors/map-included-interceptor.js';
+import LocalStorageAdapter from './services/adapters/local-storage-adapter.js';
+import { ApiClientConfig, AuthData, BEditaClientRequestConfig, BEditaClientResponse, GrantType, JsonApiResourceObject, UploadResourceType } from './types/api.js';
+import { RequestInterceptorInterface, ResponseInterceptorInterface } from './types/interceptor.js';
 
 /**
  * BEdita API client.

@@ -1,5 +1,5 @@
-import { BEditaApiClient } from './bedita-api-client';
-import { ApiClientConfig } from './types/api';
+import { BEditaApiClient } from './bedita-api-client.js';
+import { ApiClientConfig } from './types/api.js';
 
 /**
  * ApiProvider is responsible to create a `BEditaApiClient` and return the instance.

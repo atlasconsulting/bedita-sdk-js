@@ -1,7 +1,7 @@
-import { BEditaApiClient } from '../bedita-api-client';
+import { BEditaApiClient } from '../bedita-api-client.js';
 import { AxiosResponse } from 'axios';
-import { ResponseInterceptorInterface } from '../types/interceptor';
-import { BEditaClientResponse } from '../types/api';
+import { ResponseInterceptorInterface } from '../types/interceptor.js';
+import { BEditaClientResponse } from '../types/api.js';
 
 /**
  * Base class to implement response interceptors.

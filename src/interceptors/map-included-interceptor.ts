@@ -1,7 +1,7 @@
-import { ResponseInterceptorInterface } from '../types/interceptor';
+import { ResponseInterceptorInterface } from '../types/interceptor.js';
 import { AxiosResponse } from 'axios';
-import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api';
-import { flattenJsonApiResource } from '../api-helpers';
+import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api.js';
+import { flattenJsonApiResource } from '../api-helpers.js';
 
 /**
  * Interface for MapIncludedInterceptor configuration.

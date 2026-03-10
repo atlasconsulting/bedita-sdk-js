@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { RequestInterceptorInterface, ResponseInterceptorInterface } from "./interceptor";
-import { StorageAdapterInterface } from "./service";
+import { RequestInterceptorInterface, ResponseInterceptorInterface } from "./interceptor.js";
+import { StorageAdapterInterface } from "./service.js";
 
 /**
  * Interface of JSON API resource object

@@ -1,5 +1,5 @@
-import { JsonApiResourceFlat, JsonApiResourceObject } from "../src/types/api";
-import { flattenJsonApiResource, expandJsonApiResource } from "../src/api-helpers";
+import { JsonApiResourceFlat, JsonApiResourceObject } from "../src/types/api.js";
+import { flattenJsonApiResource, expandJsonApiResource } from "../src/api-helpers.js";
 import { expect } from "chai";
 
 describe('ApiHelpers', function() {

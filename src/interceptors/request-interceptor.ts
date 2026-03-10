@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
-import { BEditaApiClient } from '../bedita-api-client';
-import { RequestInterceptorInterface } from '../types/interceptor';
+import { BEditaApiClient } from '../bedita-api-client.js';
+import { RequestInterceptorInterface } from '../types/interceptor.js';
 
 /**
  * Base class to implement request interceptors.

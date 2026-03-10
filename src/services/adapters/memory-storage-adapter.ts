@@ -1,4 +1,4 @@
-import StorageAdapterInterface from "./storage-adapter-interface";
+import StorageAdapterInterface from "./storage-adapter-interface.js";
 
 /**
  * In memory storage adapter.

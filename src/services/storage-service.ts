@@ -1,4 +1,4 @@
-import StorageAdapterInterface from "./adapters/storage-adapter-interface";
+import StorageAdapterInterface from "./adapters/storage-adapter-interface.js";
 
 /**
  * Storage service class.

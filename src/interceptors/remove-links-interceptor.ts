@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { ResponseInterceptorInterface } from '../types/interceptor';
-import { BEditaClientResponse, JsonApiResourceObject } from '../types/api';
+import { ResponseInterceptorInterface } from '../types/interceptor.js';
+import { BEditaClientResponse, JsonApiResourceObject } from '../types/api.js';
 
 
 /**

@@ -1,4 +1,4 @@
-import StorageAdapterInterface from "./storage-adapter-interface";
+import StorageAdapterInterface from "./storage-adapter-interface.js";
 
 /**
  * Local Storage adapter

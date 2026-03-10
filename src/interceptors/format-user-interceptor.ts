@@ -1,6 +1,6 @@
-import ResponseInterceptor from './response-interceptor';
+import ResponseInterceptor from './response-interceptor.js';
 import { AxiosResponse } from 'axios';
-import { ApiResponseBodyOk, BEditaClientResponse } from '../types/api';
+import { ApiResponseBodyOk, BEditaClientResponse } from '../types/api.js';
 
 /**
  * Formatter interceptor for user data.

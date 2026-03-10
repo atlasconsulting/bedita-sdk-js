@@ -1,4 +1,4 @@
-import { JsonApiResourceFlat, JsonApiResourceObject } from "./types/api";
+import { JsonApiResourceFlat, JsonApiResourceObject } from "./types/api.js";
 
 /**
  * Flatten a JSON API resource.

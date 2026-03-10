@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
-import RequestInterceptor from './request-interceptor';
-import { GrantType } from '../types/api';
+import RequestInterceptor from './request-interceptor.js';
+import { GrantType } from '../types/api.js';
 
 /**
  * Auth interceptor.

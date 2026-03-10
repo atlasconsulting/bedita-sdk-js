@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import RequestInterceptor from './request-interceptor';
+import RequestInterceptor from './request-interceptor.js';
 
 /**
  * ContentType interceptor.
