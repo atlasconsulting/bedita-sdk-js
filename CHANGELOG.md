@@ -1,3 +1,10 @@
+# [4.0.0-beta.3](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2026-03-10)
+
+
+### Bug Fixes
+
+* update import paths to include .js extension ([335b86f](https://github.com/atlasconsulting/bedita-sdk-js/commit/335b86fd1e3b096558fa1c83efbce7934ff173c8))
+
 # [4.0.0-beta.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2026-03-10)
 
 
