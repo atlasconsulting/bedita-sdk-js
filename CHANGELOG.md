@@ -1,3 +1,10 @@
+# [4.0.0-beta.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2026-03-10)
+
+
+### Bug Fixes
+
+* export from .js files ([18cd4df](https://github.com/atlasconsulting/bedita-sdk-js/commit/18cd4df7b5c7c36b589505ea1a6d7186a52d4a87))
+
 # [4.0.0-beta.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.3.2...v4.0.0-beta.1) (2026-03-06)
 
 
