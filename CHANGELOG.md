@@ -32,6 +32,13 @@
 
 * refresh all deps
 
+## [3.3.3](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.3.2...v3.3.3) (2026-06-08)
+
+
+### Bug Fixes
+
+* axios security issues ([9d995f9](https://github.com/atlasconsulting/bedita-sdk-js/commit/9d995f9cd015c24e8761567f1bde8b8327532daa))
+
 ## [3.3.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v3.3.1...v3.3.2) (2026-03-06)
 
 
