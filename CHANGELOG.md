@@ -1,3 +1,10 @@
+# [4.0.0-beta.4](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2026-06-08)
+
+
+### Bug Fixes
+
+* axios security issues ([9d995f9](https://github.com/atlasconsulting/bedita-sdk-js/commit/9d995f9cd015c24e8761567f1bde8b8327532daa))
+
 # [4.0.0-beta.3](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2026-03-10)
 
 
