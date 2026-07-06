@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { describe, it } from "mocha";
 import ApiProvider from '../src/api-provider.js';
 import { BEditaApiClient } from '../src/bedita-api-client.js';
 

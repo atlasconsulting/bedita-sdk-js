@@ -12,10 +12,7 @@ import { JsonApiResourceFlat, JsonApiResourceObject } from "./types/api.js";
  * @param resource The JSON API resource to flatten
  * @returns The flattened resource
  */
-export function flattenJsonApiResource<T extends JsonApiResourceFlat>(resource: JsonApiResourceObject | null | undefined): T | null {
-  if (!resource) {
-    return null;
-  }
+export function flattenJsonApiResource<T extends JsonApiResourceFlat>(resource: JsonApiResourceObject): T {
   const flattened: JsonApiResourceFlat = {
     id: resource.id as string,
     type: resource.type,
@@ -32,6 +29,9 @@ export function flattenJsonApiResource<T extends JsonApiResourceFlat>(resource: 
 
   for (const relation in resource.relationships) {
     const relationObj = resource.relationships[relation];
+    if (relationObj?.meta) {
+      flattened[`${relation}_meta`] = relationObj.meta;
+    }
     if (Array.isArray(relationObj.data)) {
       flattened[relation] = relationObj.data.map((rel: JsonApiResourceObject) => flattenJsonApiResource(rel));
     }
@@ -76,6 +76,10 @@ export function expandJsonApiResource(flattened: JsonApiResourceFlat): JsonApiRe
         resource.relationships[relation] = {
           data: flattened[relation].map((rel: JsonApiResourceFlat) => expandJsonApiResource(rel))
         };
+      }
+
+      if (flattened[`${relation}_meta`]) {
+        resource.relationships[relation].meta = flattened[`${relation}_meta`];
       }
     }
   }

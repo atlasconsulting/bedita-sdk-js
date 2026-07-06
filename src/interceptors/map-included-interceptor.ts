@@ -22,7 +22,7 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
   /**
    * Interceptor configuration
    */
-  #config: MapIncludedConfig;
+  #config: MapIncludedConfig = {};
 
   /**
    * Constructor.
@@ -147,7 +147,7 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
       if (d.length > 0) {
         d = d.map(dItem => {
           const includedData = included.find(includedItem => includedItem.id === dItem.id);
-          if (rel === 'translations' && includedData.attributes?.lang === this.#config?.replaceWithTranslation) {
+          if (rel === 'translations' && includedData && includedData.attributes?.lang === this.#config?.replaceWithTranslation) {
             data.attributes = { ...data.attributes, ...this.extractTranslatedFields(includedData) };
           }
 
