@@ -1,3 +1,16 @@
+# [4.0.0-beta.5](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2026-07-06)
+
+
+### Bug Fixes
+
+* defult value for  MapIncludedInterceptor.#config ([7efda1f](https://github.com/atlasconsulting/bedita-sdk-js/commit/7efda1fc14ae601665e10caa1de6c69efec7f96a)), closes [MapIncludedInterceptor.#config](https://github.com/MapIncludedInterceptor./issues/config)
+
+
+### Features
+
+* flatten relationships meta ([5218783](https://github.com/atlasconsulting/bedita-sdk-js/commit/521878320c16cd0ffe7a61a91596278ba5ff1436))
+* improve types for flatten objects ([8af6b6d](https://github.com/atlasconsulting/bedita-sdk-js/commit/8af6b6deebd62ecf41146b8b361fdda847b79f42))
+
 # [4.0.0-beta.4](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2026-06-08)
 
 
