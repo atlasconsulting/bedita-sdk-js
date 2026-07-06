@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { describe, it } from "mocha";
 import { BEditaApiClient } from '../src/bedita-api-client.js';
 import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index.js';
 import { Blob } from 'fetch-blob';

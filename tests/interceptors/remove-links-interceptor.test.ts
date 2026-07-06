@@ -1,5 +1,6 @@
 import { AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
+import { describe, it } from "mocha";
 import RemoveLinksInterceptor from '../../src/interceptors/remove-links-interceptor.js';
 import { JsonApiResourceObject } from '../../src/types/api.js';
 

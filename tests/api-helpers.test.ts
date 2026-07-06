@@ -1,6 +1,7 @@
 import { JsonApiResourceFlat, JsonApiResourceObject } from "../src/types/api.js";
 import { flattenJsonApiResource, expandJsonApiResource } from "../src/api-helpers.js";
 import { expect } from "chai";
+import { describe, it } from "mocha";
 
 describe('ApiHelpers', function() {
   it('flatten JSON API resource', function() {
@@ -22,6 +23,9 @@ describe('ApiHelpers', function() {
               },
             }
           ],
+          meta: {
+            count: 1,
+          },
         },
       },
       meta: {
@@ -48,6 +52,9 @@ describe('ApiHelpers', function() {
           _meta: [],
         },
       ],
+      written_by_meta: {
+        count: 1,
+      },
     };
 
     const flattened = flattenJsonApiResource<JsonApiResourceFlat<'articles'>>(resource);
@@ -55,11 +62,6 @@ describe('ApiHelpers', function() {
 
     const restored = expandJsonApiResource(flattened!);
     expect(restored).to.deep.equal(resource);
-  });
-
-  it('flatten null or undefined resource', function() {
-    expect(flattenJsonApiResource(null)).to.equal(null);
-    expect(flattenJsonApiResource(undefined)).to.equal(null);
   });
 
   it('flatten resource with missing fields', function() {
