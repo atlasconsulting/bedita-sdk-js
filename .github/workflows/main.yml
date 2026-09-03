@@ -54,7 +54,7 @@ jobs:
       BEDITA_DOCKER_IMG: 'bedita/bedita:${{ matrix.bedita-version }}'
     strategy:
       matrix:
-        node-version: [20, 22, 24]
+        node-version: [22, 24]
         bedita-version: [5, 6]
     steps:
       - uses: actions/checkout@v7
