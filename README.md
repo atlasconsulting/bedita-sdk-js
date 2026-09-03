@@ -11,7 +11,7 @@ It is fully written in Typescript and then compiled to JavaScript. Use it as you
 ## Install
 
 ```bash
-yarn add @atlasconsulting/bedita-sdk
+npm install @atlasconsulting/bedita-sdk
 ```
 
 ## Getting started
@@ -129,13 +129,13 @@ const client = ApiProvider.get('bedita', {
 
   Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.7.0`.
 
-* run test with `yarn test`
-* launch `yarn coverage` if you want a coverage report
+* run test with `npm run test`
+* launch `npm run coverage` if you want a coverage report
 
 ### Linter
 
 * run eslint as follows:
 
   ```bash
-  yarn lint
+  npm run lint
   ```

@@ -1,8 +1,7 @@
-/* c8 ignore start */
 /**
  * Storage service interface.
  */
-export default interface StorageAdapterInterface {
+export interface StorageAdapterInterface {
   /**
    * Get the storaged value.
    */
@@ -29,4 +28,3 @@ export default interface StorageAdapterInterface {
    */
   empty(): Promise<boolean>;
 }
-/* c8 ignore stop */
