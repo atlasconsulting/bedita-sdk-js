@@ -21,6 +21,8 @@ on:
       - 'package.json'
       - 'tsconfig.json'
       - 'yarn.lock'
+  schedule:
+    - cron: '0 0 * * 2'
 
 jobs:
   build:
@@ -33,7 +35,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Test removing lockfile to test the most recent dependencies"
+            rm package-lock.json
+            npm install
+          else
+            echo "Test using npm ci with the lockfile"
+            npm ci
+          fi
 
       - name: Build
         run: npm run build
@@ -79,7 +89,15 @@ jobs:
         run: 'docker ps -a'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Test removing lockfile to test the most recent dependencies"
+            rm package-lock.json
+            npm install
+          else
+            echo "Test using npm ci with the lockfile"
+            npm ci
+          fi
 
       - name: Linter
         run: npm run lint
@@ -88,6 +106,7 @@ jobs:
         run: npm run test
 
   coverage:
+    if: github.event_name != 'schedule'
     needs: build
     runs-on: ubuntu-latest
     env:
@@ -122,7 +141,7 @@ jobs:
         run: 'docker ps -a'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Coverage
         run: npm run coverage
@@ -148,6 +167,7 @@ jobs:
           path: './coverage/clover.xml'
 
   release:
+    if: github.event_name != 'schedule'
     needs: [test, coverage]
     permissions:
       id-token: write  # Required for OIDC
@@ -161,7 +181,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - uses: actions/download-artifact@v8
         with:
