@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' TS_NODE_PROJECT='./tsconfig.test.json' mocha --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
+    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' TS_NODE_PROJECT='./tests/tsconfig.json' mocha --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
     "coverage": "c8 npm run test",
     "lint": "eslint",
     "prepare": "husky"

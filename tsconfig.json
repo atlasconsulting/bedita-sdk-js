@@ -9,7 +9,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
-    "target": "es2015",
+    "target": "ES2022",
     "importHelpers": true,
     "esModuleInterop": true
   },

@@ -3,6 +3,8 @@ import { describe, it } from "mocha";
 import { BEditaApiClient } from '../src/bedita-api-client.js';
 import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index.js';
 import { Blob } from 'fetch-blob';
+import { InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 describe('BEditaApiClient', function() {
 
@@ -299,5 +301,27 @@ describe('BEditaApiClient', function() {
       expect(r.data?.data?.attributes?.title).to.be.equal('example.txt');
       expect(r.data?.included?.[0]?.attributes?.file_name).to.be.equal('example.txt');
       expect(r.data?.included?.[0]?.attributes?.mime_type).to.be.equal('text/plain');
+    });
+
+    it('test interceptorOptions', async function() {
+      await this.client.get('/documents', {
+        responseInterceptors: [ new MapIncludedInterceptor() ],
+        interceptorOptions: {
+          MapIncludedInterceptor: {
+            flatten: true,
+          },
+          NotValidKey: { foo: 'bar'}
+        },
+        transformResponse: [
+          ...[axios.defaults.transformResponse].flat(),
+          function (this: InternalAxiosRequestConfig, data) {
+            const actual = this.interceptorOptions;
+            expect(actual).to.have.property('MapIncludedInterceptor');
+            expect(actual).to.not.have.property('NotValidKey');
+
+            return data;
+          },
+        ],
+      });
     });
 });

@@ -97,7 +97,7 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
       data = this.prepareData(data, included);
     }
 
-    if (this.#config?.flatten) {
+    if (this.#config?.flatten || response.config?.interceptorOptions?.MapIncludedInterceptor?.flatten) {
       if (Array.isArray(data)) {
         data = data.map(d => flattenJsonApiResource(d));
       } else {

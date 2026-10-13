@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { InternalAxiosRequestConfig } from 'axios';
 import RequestInterceptor from './request-interceptor.js';
 import { GrantType } from '../types/api.js';
 
@@ -13,7 +13,7 @@ export default class AuthInterceptor extends RequestInterceptor {
    *
    * @param config The axios request config
    */
-  public async requestHandler(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+  public async requestHandler(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
     config = await this.setAuthorizationHeader(config);
 
     // Authorization header set so go ahead
@@ -40,7 +40,7 @@ export default class AuthInterceptor extends RequestInterceptor {
    *
    * @param config The axios request config
    */
-  protected async setAuthorizationHeader(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+  protected async setAuthorizationHeader(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
     const accessToken = await this.beditaClient.getStorageService().getAccessToken();
     if (accessToken && !config.headers?.Authorization) {
       config.headers.Authorization = `Bearer ${accessToken}`;
