@@ -66,7 +66,7 @@ export class BEditaApiClient {
     }
 
     if (config.apiKey) {
-      axiosConfig.headers['X-Api-Key'] = config.apiKey;
+      axiosConfig.headers = { ...axiosConfig.headers, 'X-Api-Key': config.apiKey };
     }
 
     this.#config = { ...config };
@@ -107,7 +107,7 @@ export class BEditaApiClient {
     const name = interceptor.constructor.name;
     if ('requestHandler' in interceptor) {
       if (this.#requestInterceptorsMap.has(name)) {
-        return this.#requestInterceptorsMap.get(name);
+        return this.#requestInterceptorsMap.get(name)!;
       }
 
       const idx = this.#axiosInstance.interceptors.request.use(
@@ -120,7 +120,7 @@ export class BEditaApiClient {
     }
 
     if (this.#responseInterceptorsMap.has(name)) {
-      return this.#responseInterceptorsMap.get(name);
+      return this.#responseInterceptorsMap.get(name)!;
     }
 
     const index = this.#axiosInstance.interceptors.response.use(
@@ -211,7 +211,7 @@ export class BEditaApiClient {
    * @param config Request configuration
    */
   public async request(config: BEditaClientRequestConfig): Promise<BEditaClientResponse<any>> {
-    const reqInterceptorsIds = [], respInterceptorsIds = [];
+    const reqInterceptorsIds: number[] = [], respInterceptorsIds: number[] = [];
     if (config.requestInterceptors) {
       config.requestInterceptors.forEach(interceptorInstance => {
         if (!this.hasInterceptor(interceptorInstance)) {
@@ -438,7 +438,7 @@ export class BEditaApiClient {
   public async upload(file: File|Blob, type: UploadResourceType, name?: string, config?: BEditaClientRequestConfig): Promise<BEditaClientResponse> {
     name = encodeURIComponent(name || (file instanceof File ? file.name : null) || Date.now());
     config = { ...{ headers: {} }, ...config };
-    config.headers['Content-Type'] = file.type;
+    config.headers ={ ...config.headers, 'Content-Type': file.type };
 
     return await this.post(`/${type}/upload/${name}`, await file.arrayBuffer(), config);
   }
