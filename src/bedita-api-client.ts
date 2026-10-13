@@ -231,6 +231,15 @@ export class BEditaApiClient {
 
       delete config.responseInterceptors;
     }
+
+    // remove interceptorOptions not valid
+    config.interceptorOptions = config.interceptorOptions || {};
+    for (const key of Object.keys(config.interceptorOptions)) {
+      if (!this.#requestInterceptorsMap.has(key) && !this.#responseInterceptorsMap.has(key)) {
+        delete config.interceptorOptions[key];
+      }
+    }
+
     const response = await this.#axiosInstance.request(config);
 
     reqInterceptorsIds.forEach(id => this.removeInterceptor(id, 'request'));
