@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { InternalAxiosRequestConfig, AxiosResponse } from "axios";
 
 /**
  * Interface for a Request interceptor
@@ -10,7 +10,7 @@ export interface RequestInterceptorInterface {
    *
    * @param config The request configuration
    */
-  requestHandler(config: AxiosRequestConfig):  AxiosRequestConfig | Promise<AxiosRequestConfig>;
+  requestHandler(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
 
   /**
    * The error handler called if something goes wrong before the request was sent.

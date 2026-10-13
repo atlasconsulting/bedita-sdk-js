@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { InternalAxiosRequestConfig } from 'axios';
 import { BEditaApiClient } from '../bedita-api-client.js';
 import { RequestInterceptorInterface } from '../types/interceptor.js';
 
@@ -24,7 +24,7 @@ export default abstract class RequestInterceptor implements RequestInterceptorIn
   /**
    * @inheritdoc
    */
-  public requestHandler(config: AxiosRequestConfig): AxiosRequestConfig | Promise<AxiosRequestConfig> {
+  public requestHandler(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig> {
     return config;
   }
 

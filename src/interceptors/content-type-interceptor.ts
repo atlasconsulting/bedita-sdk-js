@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosHeaders, InternalAxiosRequestConfig } from 'axios';
 import RequestInterceptor from './request-interceptor.js';
 
 /**
@@ -17,9 +17,9 @@ export default class ContentTypeInterceptor extends RequestInterceptor {
    *
    * @param config The axios request config
    */
-  public requestHandler(config: AxiosRequestConfig) {
+  public requestHandler(config: InternalAxiosRequestConfig) {
     if (config.data) {
-      config.headers = {...this.CONTENT_TYPE_HEADER, ...config.headers};
+      config.headers = AxiosHeaders.from({...this.CONTENT_TYPE_HEADER, ...config.headers});
     }
 
     return Promise.resolve(config);
