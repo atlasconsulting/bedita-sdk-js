@@ -1,3 +1,17 @@
+# [4.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.1...v4.1.0) (2026-10-13)
+
+
+### Bug Fixes
+
+* ts check ([74132a5](https://github.com/atlasconsulting/bedita-sdk-js/commit/74132a53a6a5f703eb8fb45faa0a060eda11b8ff))
+* types for request intercetor ([b96ecf8](https://github.com/atlasconsulting/bedita-sdk-js/commit/b96ecf89381b6a025fd244345750a1a3681b30f3))
+
+
+### Features
+
+* allow to pass interceptor configuration in client request ([657c57b](https://github.com/atlasconsulting/bedita-sdk-js/commit/657c57be9895b1effb42eb4491d6c9a2e2e14ae9))
+* increase target to ES2022 ([09f4638](https://github.com/atlasconsulting/bedita-sdk-js/commit/09f46382c86ffd504826db41a2675e14f8621f36))
+
 ## [4.0.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.0...v4.0.1) (2026-10-12)
 
 
