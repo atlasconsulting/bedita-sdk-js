@@ -1,3 +1,11 @@
+## [4.1.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.1.0...v4.1.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* consistent return type ([1fa0f2c](https://github.com/atlasconsulting/bedita-sdk-js/commit/1fa0f2cecf0e2d5240bf5ae7dbaca67938a5cfee))
+* ensure to export interceptorOptions for app ([8cae448](https://github.com/atlasconsulting/bedita-sdk-js/commit/8cae4480205e62bfa41d6596860f11ac490a1383))
+
 # [4.1.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.0.1...v4.1.0) (2026-10-13)
 
 
