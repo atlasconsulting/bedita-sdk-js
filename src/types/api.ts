@@ -1,4 +1,5 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
+import "./axios-augmentation.js";
 import { RequestInterceptorInterface, ResponseInterceptorInterface } from "./interceptor.js";
 import { StorageAdapterInterface } from "./service.js";
 
