@@ -4,7 +4,7 @@
   "description": "A simple BEdita SDK based on axios",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atlasconsulting/bedita-sdk-js.git"
+    "url": "git+https://github.com/atlasconsulting/bedita-sdk-js.git"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
+    "build": "tsc",
     "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' TS_NODE_PROJECT='./tests/tsconfig.json' mocha --require mock-local-storage --require tests/hooks.ts \"tests/**/*.test.ts\"",
     "coverage": "c8 npm run test",
     "lint": "eslint",
