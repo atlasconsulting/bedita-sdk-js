@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.1.1...v4.1.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* avoid that mao included interceptor works on response not compliant with JSON api ([143b7e6](https://github.com/atlasconsulting/bedita-sdk-js/commit/143b7e662817bb3e1a77d817cec830112455a172))
+
 ## [4.1.1](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.1.0...v4.1.1) (2026-10-14)
 
 
