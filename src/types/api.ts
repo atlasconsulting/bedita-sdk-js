@@ -24,9 +24,9 @@ export interface JsonApiResourceFlat<T extends string = string> {
   id: string;
   type: T;
   [key: string]: unknown;
-  _attributes: string[];
-  _relationships: string[];
-  _meta: string[];
+  _attributes?: string[];
+  _relationships?: string[];
+  _meta?: string[];
 }
 
 /**

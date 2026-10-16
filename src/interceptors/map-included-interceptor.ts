@@ -1,7 +1,7 @@
 import { ResponseInterceptorInterface } from '../types/interceptor.js';
 import { AxiosResponse } from 'axios';
-import { ApiResponseBodyOk, BEditaClientResponse, JsonApiResourceObject } from '../types/api.js';
-import { flattenJsonApiResource } from '../api-helpers.js';
+import { BEditaClientResponse, JsonApiResourceObject, JsonApiResourceFlat } from '../types/api.js';
+import { flattenJsonApiResource, isJsonApiResourceObject } from '../api-helpers.js';
 
 /**
  * Interface for MapIncludedInterceptor configuration.
@@ -89,7 +89,11 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
    * @param response The response.
    */
   public responseHandler(response: AxiosResponse): Promise<BEditaClientResponse<any>> {
-    const responseData: ApiResponseBodyOk = response.data;
+    if (!response.data?.data) {
+      return Promise.resolve(response);
+    }
+
+    const responseData = response.data;
     let { data } = responseData;
     const { included = false } = responseData;
 
@@ -98,11 +102,7 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
     }
 
     if (this.#config?.flatten || response.config?.interceptorOptions?.MapIncludedInterceptor?.flatten) {
-      if (Array.isArray(data)) {
-        data = data.map(d => flattenJsonApiResource(d));
-      } else {
-        data = flattenJsonApiResource(data);
-      }
+      data = this.flattenData(data);
     }
 
     const beditaResponse = response as BEditaClientResponse;
@@ -116,6 +116,19 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
    */
   public errorHandler(error: any): Promise<any> {
     return Promise.reject(error);
+  }
+
+  /**
+   * Flatten the given data if it is a JSON API resource object or an array of such objects.
+   *
+   * @param data The data to flatten
+   */
+  protected flattenData(data: JsonApiResourceObject | JsonApiResourceObject[] | unknown): JsonApiResourceFlat | JsonApiResourceFlat[] | unknown {
+    if (Array.isArray(data)) {
+      return data.map(d => isJsonApiResourceObject(d, { id: true }) ? flattenJsonApiResource(d) : d);
+    }
+
+    return isJsonApiResourceObject(data, { id: true }) ? flattenJsonApiResource(data) : data;
   }
 
   /**
