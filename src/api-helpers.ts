@@ -1,6 +1,37 @@
 import { JsonApiResourceFlat, JsonApiResourceObject } from "./types/api.js";
 
 /**
+ * Check if a value is a JSON API resource object.
+ *
+ * @param value The value to check.
+ * @param require The requirements for the JSON API resource fields.
+ * @returns True if the value is a JSON API resource object, false otherwise.
+ */
+export function isJsonApiResourceObject(
+  value: unknown,
+  require?: {
+    id?: boolean,
+    attributes?: boolean,
+    relationships?: boolean,
+    link?: boolean,
+    meta?: boolean
+  },
+): value is JsonApiResourceObject {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    !Array.isArray(value) &&
+    'type' in value &&
+    typeof value.type === 'string' &&
+    (!require?.id || ('id' in value && typeof value.id === 'string')) &&
+    (!require?.attributes || ('attributes' in value && typeof value.attributes === 'object')) &&
+    (!require?.relationships || ('relationships' in value && typeof value.relationships === 'object')) &&
+    (!require?.link || ('link' in value && typeof value.link === 'object')) &&
+    (!require?.meta || ('meta' in value && typeof value.meta === 'object'))
+  );
+}
+
+/**
  * Flatten a JSON API resource.
  *
  * Attributes, relationships and meta fields are merged into the top-level object
@@ -54,21 +85,21 @@ export function expandJsonApiResource(flattened: JsonApiResourceFlat): JsonApiRe
     type: flattened.type,
   };
 
-  if (flattened._attributes.length > 0) {
+  if (flattened?._attributes && flattened._attributes.length > 0) {
     resource.attributes = {};
     for (const property of flattened._attributes) {
       resource.attributes[property] = flattened[property];
     }
   }
 
-  if (flattened._meta.length > 0) {
+  if (flattened?._meta && flattened._meta.length > 0) {
     resource.meta = {};
     for (const metaProperty of flattened._meta) {
       resource.meta[metaProperty] = flattened[metaProperty];
     }
   }
 
-  if (flattened._relationships.length > 0) {
+  if (flattened?._relationships && flattened._relationships.length > 0) {
     resource.relationships = {};
     for (const relation of flattened._relationships) {
       resource.relationships[relation] = {};
