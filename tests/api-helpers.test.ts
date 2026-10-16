@@ -1,9 +1,29 @@
-import { JsonApiResourceFlat, JsonApiResourceObject } from "../src/types/api.js";
-import { flattenJsonApiResource, expandJsonApiResource } from "../src/api-helpers.js";
+import type { JsonApiResourceFlat, JsonApiResourceObject } from "../src/types/api.js";
+import { flattenJsonApiResource, expandJsonApiResource, isJsonApiResourceObject } from "../src/api-helpers.js";
 import { expect } from "chai";
 import { describe, it } from "mocha";
 
 describe('ApiHelpers', function() {
+  it('test isJsonApiResourceObject guard', function() {
+    expect(isJsonApiResourceObject({})).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles' })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 123 })).to.be.false;
+    expect(isJsonApiResourceObject({ type: undefined })).to.be.false;
+    expect(isJsonApiResourceObject({ type: false })).to.be.false;
+    expect(isJsonApiResourceObject({ type: {} })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles' }, { id: true })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles', id: '1' }, { id: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles', id: 890 }, { id: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles' }, { attributes: true })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles', attributes: {} }, { attributes: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles' }, { relationships: true })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles', relationships: {} }, { relationships: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles' }, { link: true })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles', link: {} }, { link: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles' }, { meta: true })).to.be.false;
+    expect(isJsonApiResourceObject({ type: 'articles', meta: {} }, { meta: true })).to.be.true;
+  });
+
   it('flatten JSON API resource', function() {
     const resource: JsonApiResourceObject = {
       id: '1',

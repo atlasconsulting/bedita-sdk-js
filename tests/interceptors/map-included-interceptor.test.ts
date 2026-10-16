@@ -4,6 +4,24 @@ import { describe, it } from "mocha";
 import { MapIncludedInterceptor } from '../../src/interceptors/map-included-interceptor.js';
 
 describe('MapIncludedInterceptor', function() {
+  it('missing data from response', async function() {
+    const interceptor = new MapIncludedInterceptor();
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      },
+      data: {
+        test: 'value'
+      },
+    };
+
+    const response = await interceptor.responseHandler(initialResponse);
+    expect(response.formattedData).to.not.exist;
+    expect(response.data).to.deep.equal(initialResponse.data);
+  });
 
   it('no included', async function() {
     const interceptor = new MapIncludedInterceptor();
@@ -256,6 +274,76 @@ describe('MapIncludedInterceptor', function() {
     expect(response.formattedData.data).to.deep.equal(expectedData);
   });
 
+  it('flattened config single object', async function() {
+    const data = {
+      data: {
+        id: 1,
+        type: 'users',
+        attributes: {
+          title: 'User number one',
+        },
+        relationships: {
+          attach: {
+            links: {
+              related: 'https://api.example.com/users/1/attach',
+              self: 'https://api.example.com/users/1/relationships/attach',
+            },
+            data: [
+              {
+                id: 12,
+                type: 'images',
+              },
+            ],
+          },
+        },
+      },
+      included: [
+        {
+          id: 12,
+          type: 'images',
+          attributes: {
+            title: 'Profile image',
+          },
+        },
+      ],
+    };
+
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      },
+      data,
+    };
+
+    const expectedData = {
+      id: 1,
+      type: 'users',
+      title: 'User number one',
+      attach: [
+        {
+          id: 12,
+          type: 'images',
+          title: 'Profile image',
+          _attributes: ['title'],
+          _relationships: [],
+          _meta: [],
+        },
+      ],
+      _attributes: ['title'],
+      _relationships: ['attach'],
+      _meta: [],
+    };
+
+    const interceptor = new MapIncludedInterceptor({ flatten: true });
+    const response = await interceptor.responseHandler(initialResponse);
+
+    expect(response.formattedData).to.not.equal(response.data);
+    expect(response.formattedData.data).to.deep.equal(expectedData);
+  });
+
   it('flattened passed in interceptorOptions', async function() {
     const data = {
       data: [
@@ -333,5 +421,63 @@ describe('MapIncludedInterceptor', function() {
 
     expect(response.formattedData).to.not.equal(response.data);
     expect(response.formattedData.data).to.deep.equal(expectedData);
+  });
+
+  it('when missing data do not try to flatten', async function() {
+    const data = {
+      meta: { test: 'value' },
+      links: { self: 'https://api.example.com/users' }
+    };
+
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      },
+      data,
+    };
+
+    const expectedData = {
+      meta: { test: 'value' },
+      links: { self: 'https://api.example.com/users' }
+    };
+
+    const interceptor = new MapIncludedInterceptor({ flatten: true });
+    const response = await interceptor.responseHandler(initialResponse);
+
+    expect(response.formattedData).to.not.exist;
+    expect(response.data).to.deep.equal(expectedData);
+  });
+
+  it('when not a JSON API resource do not flatten', async function() {
+    const data = {
+      data: { test: 'value' },
+      meta: { test: 'value' },
+      links: { self: 'https://api.example.com/test' }
+    };
+
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      },
+      data,
+    };
+
+    const expectedData = {
+      data: { test: 'value' },
+      meta: { test: 'value' },
+      links: { self: 'https://api.example.com/test' }
+    };
+
+    const interceptor = new MapIncludedInterceptor({ flatten: true });
+    const response = await interceptor.responseHandler(initialResponse);
+
+    expect(response.formattedData.data).to.be.equal(response.data.data);
+    expect(response.data).to.deep.equal(expectedData);
   });
 });
