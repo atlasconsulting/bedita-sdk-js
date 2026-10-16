@@ -35,7 +35,7 @@ describe('MapIncludedInterceptor', function() {
       data: {
         data: [
           {
-            id: 1,
+            id: '1',
             type: 'users',
             attributes: {
               title: 'User number one',
@@ -61,7 +61,7 @@ describe('MapIncludedInterceptor', function() {
     const data = {
       data: [
         {
-          id: 1,
+          id: '1',
           type: 'users',
           attributes: {
             title: 'User number one',
@@ -74,7 +74,7 @@ describe('MapIncludedInterceptor', function() {
               },
               data: [
                 {
-                  id: 12,
+                  id: '12',
                   type: 'images',
                 },
               ],
@@ -84,7 +84,7 @@ describe('MapIncludedInterceptor', function() {
       ],
       included: [
         {
-          id: 12,
+          id: '12',
           type: 'images',
           attributes: {
             title: 'Profile image',
@@ -121,7 +121,7 @@ describe('MapIncludedInterceptor', function() {
       data: {
         data: [
           {
-            id: 1,
+            id: '1',
             type: 'users',
             attributes: {
               title: 'User number one',
@@ -136,7 +136,7 @@ describe('MapIncludedInterceptor', function() {
                 },
                 data: [
                   {
-                    id: 5,
+                    id: '5',
                     type: 'translations',
                   },
                 ],
@@ -146,7 +146,7 @@ describe('MapIncludedInterceptor', function() {
         ],
         included: [
           {
-            id: 5,
+            id: '5',
             type: 'translations',
             attributes: {
               lang: 'it',
@@ -162,7 +162,7 @@ describe('MapIncludedInterceptor', function() {
 
     const expectedData = [
       {
-        id: 1,
+        id: '1',
         type: 'users',
         attributes: {
           title: 'Utente numero uno',
@@ -177,7 +177,7 @@ describe('MapIncludedInterceptor', function() {
             },
             data: [
               {
-                id: 5,
+                id: '5',
                 type: 'translations',
                 attributes: {
                   lang: 'it',
@@ -204,7 +204,7 @@ describe('MapIncludedInterceptor', function() {
     const data = {
       data: [
         {
-          id: 1,
+          id: '1',
           type: 'users',
           attributes: {
             title: 'User number one',
@@ -217,7 +217,7 @@ describe('MapIncludedInterceptor', function() {
               },
               data: [
                 {
-                  id: 12,
+                  id: '12',
                   type: 'images',
                 },
               ],
@@ -227,7 +227,7 @@ describe('MapIncludedInterceptor', function() {
       ],
       included: [
         {
-          id: 12,
+          id: '12',
           type: 'images',
           attributes: {
             title: 'Profile image',
@@ -248,12 +248,12 @@ describe('MapIncludedInterceptor', function() {
 
     const expectedData = [
       {
-        id: 1,
+        id: '1',
         type: 'users',
         title: 'User number one',
         attach: [
           {
-            id: 12,
+            id: '12',
             type: 'images',
             title: 'Profile image',
             _attributes: ['title'],
@@ -277,7 +277,7 @@ describe('MapIncludedInterceptor', function() {
   it('flattened config single object', async function() {
     const data = {
       data: {
-        id: 1,
+        id: '1',
         type: 'users',
         attributes: {
           title: 'User number one',
@@ -290,7 +290,7 @@ describe('MapIncludedInterceptor', function() {
             },
             data: [
               {
-                id: 12,
+                id: '12',
                 type: 'images',
               },
             ],
@@ -299,7 +299,7 @@ describe('MapIncludedInterceptor', function() {
       },
       included: [
         {
-          id: 12,
+          id: '12',
           type: 'images',
           attributes: {
             title: 'Profile image',
@@ -319,12 +319,12 @@ describe('MapIncludedInterceptor', function() {
     };
 
     const expectedData = {
-      id: 1,
+      id: '1',
       type: 'users',
       title: 'User number one',
       attach: [
         {
-          id: 12,
+          id: '12',
           type: 'images',
           title: 'Profile image',
           _attributes: ['title'],
@@ -348,7 +348,7 @@ describe('MapIncludedInterceptor', function() {
     const data = {
       data: [
         {
-          id: 1,
+          id: '1',
           type: 'users',
           attributes: {
             title: 'User number one',
@@ -361,7 +361,7 @@ describe('MapIncludedInterceptor', function() {
               },
               data: [
                 {
-                  id: 12,
+                  id: '12',
                   type: 'images',
                 },
               ],
@@ -371,7 +371,7 @@ describe('MapIncludedInterceptor', function() {
       ],
       included: [
         {
-          id: 12,
+          id: '12',
           type: 'images',
           attributes: {
             title: 'Profile image',
@@ -397,12 +397,12 @@ describe('MapIncludedInterceptor', function() {
 
     const expectedData = [
       {
-        id: 1,
+        id: '1',
         type: 'users',
         title: 'User number one',
         attach: [
           {
-            id: 12,
+            id: '12',
             type: 'images',
             title: 'Profile image',
             _attributes: ['title'],

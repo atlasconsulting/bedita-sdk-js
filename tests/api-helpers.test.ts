@@ -13,7 +13,7 @@ describe('ApiHelpers', function() {
     expect(isJsonApiResourceObject({ type: {} })).to.be.false;
     expect(isJsonApiResourceObject({ type: 'articles' }, { id: true })).to.be.false;
     expect(isJsonApiResourceObject({ type: 'articles', id: '1' }, { id: true })).to.be.true;
-    expect(isJsonApiResourceObject({ type: 'articles', id: 890 }, { id: true })).to.be.true;
+    expect(isJsonApiResourceObject({ type: 'articles', id: 890 }, { id: true })).to.be.false;
     expect(isJsonApiResourceObject({ type: 'articles' }, { attributes: true })).to.be.false;
     expect(isJsonApiResourceObject({ type: 'articles', attributes: {} }, { attributes: true })).to.be.true;
     expect(isJsonApiResourceObject({ type: 'articles' }, { relationships: true })).to.be.false;
