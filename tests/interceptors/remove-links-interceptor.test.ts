@@ -1,8 +1,8 @@
-import { AxiosResponse, AxiosHeaders } from 'axios';
+import { type AxiosResponse, AxiosHeaders } from 'axios';
 import { expect } from 'chai';
 import { describe, it } from "mocha";
 import RemoveLinksInterceptor from '../../src/interceptors/remove-links-interceptor.js';
-import { JsonApiResourceObject } from '../../src/types/api.js';
+import type { JsonApiResourceObject } from '../../src/types/api.js';
 
 describe('RemoveLinksInterceptor', function() {
   it('test that links are removed from response', async function() {

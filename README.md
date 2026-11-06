@@ -124,13 +124,19 @@ const client = ApiProvider.get('bedita', {
 * run docker image of BEdita API as
 
   ```bash
-  docker run -p 8090:80 --env BEDITA_ADMIN_USR=admin --env BEDITA_ADMIN_PWD=admin --env BEDITA_API_KEY=1234567890 bedita/bedita:latest
+  docker run --name bedita_api -p 8090:80 --env BEDITA_API_KEY=1234567890 --env BEDITA_ADMIN_USR=admin --env BEDITA_ADMIN_PWD=admin bedita/bedita:6
   ```
 
-  Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and the version of docker image, for example `bedita/bedita:4.7.0`.
+  Set the values you want for `BEDITA_ADMIN_USR`, `BEDITA_ADMIN_PWD` and `BEDITA_API_KEY` and eventually the version of docker image you need.
 
 * run test with `npm run test`
 * launch `npm run coverage` if you want a coverage report
+
+Once your test session is over you can stop the container.
+
+```bash
+docker stop bedita_api
+```
 
 ### Linter
 
