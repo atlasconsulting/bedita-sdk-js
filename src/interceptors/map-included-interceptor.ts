@@ -165,7 +165,9 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
             data.attributes = { ...data.attributes, ...this.extractTranslatedFields(includedData) };
           }
 
-          return includedData || dItem;
+          return includedData
+            ? { ...includedData, meta: { ...includedData.meta, ...dItem.meta } }
+            : dItem;
         });
       }
 
