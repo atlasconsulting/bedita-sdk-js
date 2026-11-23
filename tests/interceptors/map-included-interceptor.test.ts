@@ -389,6 +389,68 @@ describe('MapIncludedInterceptor', function() {
     expect(response.formattedData.data).to.deep.equal(expectedData);
   });
 
+  it('flattens resource, relationship and included metadata', async function() {
+    const data = {
+      data: [
+        {
+          id: '1',
+          type: 'users',
+          meta: { created: '2026-01-01' },
+          relationships: {
+            attach: {
+              meta: { count: 1 },
+              data: [{
+                id: '12',
+                type: 'images',
+                meta: { relation: { priority: 1 } },
+              }],
+            },
+          },
+        },
+      ],
+      included: [
+        {
+          id: '12',
+          type: 'images',
+          attributes: { title: 'Profile image' },
+          meta: { created: '2026-02-01' },
+        },
+      ],
+    };
+    const originalData = structuredClone(data);
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+      data,
+    };
+
+    const response = await new MapIncludedInterceptor({ flatten: true }).responseHandler(initialResponse);
+
+    expect(response.formattedData.data).to.deep.equal([{
+      id: '1',
+      type: 'users',
+      created: '2026-01-01',
+      _attributes: [],
+      _relationships: ['attach'],
+      _meta: ['created'],
+      attach_meta: { count: 1 },
+      attach: [{
+        id: '12',
+        type: 'images',
+        title: 'Profile image',
+        created: '2026-02-01',
+        relation: { priority: 1 },
+        _attributes: ['title'],
+        _relationships: [],
+        _meta: ['created', 'relation'],
+      }],
+    }]);
+    response.formattedData.data[0].attach[0].relation.priority = 2;
+    expect(response.data).to.deep.equal(originalData);
+  });
+
   it('flattened config single object', async function() {
     const data = {
       data: {
