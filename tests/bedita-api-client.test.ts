@@ -142,6 +142,7 @@ describe('BEditaApiClient', function() {
       await client.save('', {});
       expect(false).equals(true); // this line should not be executed
     } catch(e) {
+      if (!(e instanceof Error)) throw e;
       expect(e.message).equals('Missing required type');
     }
   });
@@ -154,7 +155,8 @@ describe('BEditaApiClient', function() {
       });
       expect(false).equals(true); // this line should not be executed
     } catch(e) {
-      expect(e.response.status).equals(401);
+      if (!axios.isAxiosError(e)) throw e;
+      expect(e.response?.status).equals(401);
       expect(e.message).equals('Request failed with status code 401');
     }
   });
@@ -164,7 +166,8 @@ describe('BEditaApiClient', function() {
       await this.client.authenticate('what', 'ever');
       expect(false).equals(true); // this line should not be executed
     } catch(e) {
-      expect(e.response.status).equals(401);
+      if (!axios.isAxiosError(e)) throw e;
+      expect(e.response?.status).equals(401);
       expect(e.message).equals('Request failed with status code 401');
     }
   });
@@ -200,7 +203,8 @@ describe('BEditaApiClient', function() {
       await client.get('/status');
       expect(false).equals(true); // this line should not be executed
     } catch(e) {
-      expect(e?.response?.status).equals(403);
+      if (!axios.isAxiosError(e)) throw e;
+      expect(e.response?.status).equals(403);
     }
   });
 
@@ -222,8 +226,9 @@ describe('BEditaApiClient', function() {
         await this.client.getUserAuth(['wrong', 'bad']);
         expect(false).equals(true); // this line should not be executed
       } catch(e) {
+        if (!axios.isAxiosError(e)) throw e;
         expect(e.request.path).equals('/auth/user?include=wrong,bad');
-        expect(e.response.status).equals(400);
+        expect(e.response?.status).equals(400);
       }
     });
 
@@ -250,8 +255,9 @@ describe('BEditaApiClient', function() {
         await this.client.renewTokens();
         expect(false).equals(true); // this line should not be executed
       } catch(resp) {
-        expect(resp.response.status).equals(401);
-        expect(resp.response.statusText).equals('Unauthorized');
+        if (!axios.isAxiosError(resp)) throw resp;
+        expect(resp.response?.status).equals(401);
+        expect(resp.response?.statusText).equals('Unauthorized');
       }
     });
 
@@ -271,6 +277,36 @@ describe('BEditaApiClient', function() {
         response = await this.client.get(`/documents/${id}`);
         expect(response.data?.data?.attributes?.title).equals('A new title');
         expect(response.data?.data?.attributes?.description).equals('A new description');
+      } catch(e) {
+        expect(false).equals(true); // this line should not be executed
+      }
+    });
+
+    it('test save() consecutive calls', async function() {
+      try {
+        await this.client.authenticate(this.apiConfig.adminUser, this.apiConfig.adminPwd);
+        let objData: { id?: string, title: string, description: string } = {
+          title: 'The title',
+          description: 'The description',
+        };
+        let response = await this.client.save('documents', objData);
+        objData = {
+          id: response.data?.data?.id,
+          title: 'Updated title',
+          description: 'Updated description',
+        };
+        response = await this.client.save('documents', objData);
+        expect(response.data?.data?.id).equals(objData.id);
+        expect(response.data?.data?.attributes?.title).equals('Updated title');
+        expect(response.data?.data?.attributes?.description).equals('Updated description');
+
+        // saving again modify the same object
+        objData.title = 'Updated title again';
+        objData.description = 'Updated description again';
+        response = await this.client.save('documents', objData);
+        expect(response.data?.data?.id).equals(objData.id);
+        expect(response.data?.data?.attributes?.title).equals('Updated title again');
+        expect(response.data?.data?.attributes?.description).equals('Updated description again');
       } catch(e) {
         expect(false).equals(true); // this line should not be executed
       }
