@@ -54,7 +54,11 @@ describe('MapIncludedInterceptor', function() {
     };
 
     const response = await interceptor.responseHandler(initialResponse);
+
     expect(response.formattedData).to.deep.equal(response.data);
+    expect(response.formattedData.data).to.not.equal(response.data.data);
+    response.formattedData.data[0].attributes.title = 'Changed';
+    expect(response.data.data[0].attributes.title).to.equal('User number one');
   });
 
   it('included', async function() {
@@ -89,6 +93,7 @@ describe('MapIncludedInterceptor', function() {
           attributes: {
             title: 'Profile image',
           },
+          meta: {},
         },
       ],
     };
@@ -106,8 +111,117 @@ describe('MapIncludedInterceptor', function() {
     const interceptor = new MapIncludedInterceptor();
     const response = await interceptor.responseHandler(initialResponse);
 
-    expect(response.formattedData).to.not.equal(response.data);
+    expect(response.formattedData).to.not.deep.equal(response.data);
     expect(response.formattedData.data[0].relationships.attach.data).to.deep.equal(data.included);
+  });
+
+  it('keeps original data and included resources independent when mapping translations', async function() {
+    const data = {
+      data: {
+        id: '1',
+        type: 'users',
+        attributes: { title: 'Original' },
+        relationships: {
+          translations: { data: [{ id: '2', type: 'translations' }] },
+        },
+      },
+      included: [{
+        id: '2',
+        type: 'translations',
+        attributes: {
+          lang: 'it',
+          translated_fields: { title: 'Tradotto' },
+        },
+      }],
+    };
+    const originalData = structuredClone(data);
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+      data,
+    };
+
+    const interceptor = new MapIncludedInterceptor({ replaceWithTranslation: 'it' });
+    const response = await interceptor.responseHandler(initialResponse);
+
+    expect(response.data).to.deep.equal(originalData);
+    expect(response.formattedData.data.attributes.title).to.equal('Tradotto');
+    response.formattedData.data.relationships.translations.data[0].attributes.translated_fields.title = 'Changed';
+    expect(response.data).to.deep.equal(originalData);
+  });
+
+  it('included with meta', async function() {
+    const data = {
+      data: [
+        {
+          id: '1',
+          type: 'users',
+          attributes: {
+            title: 'User number one',
+          },
+          relationships: {
+            attach: {
+              links: {
+                related: 'https://api.example.com/users/1/attach',
+                self: 'https://api.example.com/users/1/relationships/attach',
+              },
+              data: [
+                {
+                  id: '12',
+                  type: 'images',
+                  meta: {
+                    relation: {
+                      priority: 1,
+                      inv_priority: 2,
+                      params: {
+                        document_type: 'ci',
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+      included: [
+        {
+          id: '12',
+          type: 'images',
+          attributes: {
+            title: 'Profile image',
+          },
+          meta: {
+            created: '2026-11-13T12:00:00Z',
+          }
+        },
+      ],
+    };
+
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders({ 'Content-Type': 'application/json' }),
+      },
+      data,
+    };
+
+    const interceptor = new MapIncludedInterceptor();
+    const response = await interceptor.responseHandler(initialResponse);
+
+    // prepare expected included meta by merging with relationship meta
+    const expectedIncluded = structuredClone(data.included[0]);
+    expectedIncluded.meta = {
+      ...expectedIncluded.meta,
+      ...data.data[0].relationships.attach.data[0].meta
+    };
+
+    expect(response.formattedData).to.not.deep.equal(response.data);
+    expect(response.formattedData.data[0].relationships.attach.data[0]).to.deep.equal(expectedIncluded);
   });
 
   it('included with replace translations', async function() {
@@ -186,6 +300,7 @@ describe('MapIncludedInterceptor', function() {
                     description: '',
                   },
                 },
+                meta: {},
               },
             ],
           },
@@ -274,6 +389,68 @@ describe('MapIncludedInterceptor', function() {
     expect(response.formattedData.data).to.deep.equal(expectedData);
   });
 
+  it('flattens resource, relationship and included metadata', async function() {
+    const data = {
+      data: [
+        {
+          id: '1',
+          type: 'users',
+          meta: { created: '2026-01-01' },
+          relationships: {
+            attach: {
+              meta: { count: 1 },
+              data: [{
+                id: '12',
+                type: 'images',
+                meta: { relation: { priority: 1 } },
+              }],
+            },
+          },
+        },
+      ],
+      included: [
+        {
+          id: '12',
+          type: 'images',
+          attributes: { title: 'Profile image' },
+          meta: { created: '2026-02-01' },
+        },
+      ],
+    };
+    const originalData = structuredClone(data);
+    const initialResponse: AxiosResponse = {
+      status: 200,
+      statusText: 'ok',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+      data,
+    };
+
+    const response = await new MapIncludedInterceptor({ flatten: true }).responseHandler(initialResponse);
+
+    expect(response.formattedData.data).to.deep.equal([{
+      id: '1',
+      type: 'users',
+      created: '2026-01-01',
+      _attributes: [],
+      _relationships: ['attach'],
+      _meta: ['created'],
+      attach_meta: { count: 1 },
+      attach: [{
+        id: '12',
+        type: 'images',
+        title: 'Profile image',
+        created: '2026-02-01',
+        relation: { priority: 1 },
+        _attributes: ['title'],
+        _relationships: [],
+        _meta: ['created', 'relation'],
+      }],
+    }]);
+    response.formattedData.data[0].attach[0].relation.priority = 2;
+    expect(response.data).to.deep.equal(originalData);
+  });
+
   it('flattened config single object', async function() {
     const data = {
       data: {
@@ -308,6 +485,7 @@ describe('MapIncludedInterceptor', function() {
       ],
     };
 
+    const originalData = structuredClone(data);
     const initialResponse: AxiosResponse = {
       status: 200,
       statusText: 'ok',
@@ -342,6 +520,9 @@ describe('MapIncludedInterceptor', function() {
 
     expect(response.formattedData).to.not.equal(response.data);
     expect(response.formattedData.data).to.deep.equal(expectedData);
+    expect(response.data).to.deep.equal(originalData);
+    response.formattedData.data.attach[0].title = 'Changed';
+    expect(response.data).to.deep.equal(originalData);
   });
 
   it('flattened passed in interceptorOptions', async function() {
@@ -477,7 +658,8 @@ describe('MapIncludedInterceptor', function() {
     const interceptor = new MapIncludedInterceptor({ flatten: true });
     const response = await interceptor.responseHandler(initialResponse);
 
-    expect(response.formattedData.data).to.be.equal(response.data.data);
+    expect(response.formattedData.data).to.not.equal(response.data.data);
+    expect(response.formattedData.data).to.deep.equal(response.data.data);
     expect(response.data).to.deep.equal(expectedData);
   });
 });
