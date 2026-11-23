@@ -409,7 +409,7 @@ export class BEditaApiClient {
 
   /**
    * Save a resource.
-   * If data contains `id` then it create new one resource
+   * If data doesn't contain `id` then it create new one resource
    * else it update existing resource.
    *
    * @param type The resource type
@@ -420,15 +420,16 @@ export class BEditaApiClient {
       throw new Error('Missing required type');
     }
 
-    const body: {data: JsonApiResourceObject} = { data: {type} };
-    const id: string|null = data?.id;
-    if (id) {
-      body.data.id = id;
-    }
-    delete data.id;
-    body.data.attributes = data;
+    const { id, ...attributes } = data
+    const body: {data: JsonApiResourceObject} = {
+      data: {
+        type,
+        attributes,
+      },
+    };
 
     if (id) {
+      body.data.id = id;
       return await this.patch(`${type}/${id}`, body);
     }
 
