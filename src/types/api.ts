@@ -96,15 +96,17 @@ export enum GrantType {
 }
 
 /**
- * String enums for upload resource types.
+ * Common upload resource types. Custom resource type strings are also allowed.
  */
-export enum UploadResourceType {
-  streams = 'streams',
-  images = 'images',
-  audio = 'audio',
-  video = 'videos',
-  files = 'files',
-}
+export const UploadResourceType = {
+  streams: 'streams',
+  images: 'images',
+  audio: 'audio',
+  video: 'videos',
+  files: 'files',
+} as const;
+
+export type UploadResourceType = typeof UploadResourceType[keyof typeof UploadResourceType] | (string & Record<never, never>);
 
 /**
  * Interface describing data used for auth action.

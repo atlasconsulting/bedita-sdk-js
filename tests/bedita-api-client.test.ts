@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from "mocha";
 import { BEditaApiClient } from '../src/bedita-api-client.js';
-import { ContentTypeInterceptor, MapIncludedInterceptor } from '../src/index.js';
+import { ContentTypeInterceptor, MapIncludedInterceptor, UploadResourceType } from '../src/index.js';
 import { Blob } from 'fetch-blob';
 import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
@@ -337,6 +337,18 @@ describe('BEditaApiClient', function() {
       expect(r.data?.data?.attributes?.title).to.be.equal('example.txt');
       expect(r.data?.included?.[0]?.attributes?.file_name).to.be.equal('example.txt');
       expect(r.data?.included?.[0]?.attributes?.mime_type).to.be.equal('text/plain');
+    });
+
+    it('uploads to a custom resource type', async function() {
+      const client = new BEditaApiClient({ baseUrl: 'https://example.com' });
+      const type: UploadResourceType = 'custom-media';
+      client.getHttpClient().defaults.adapter = async config => {
+        expect(config.url).equals('/custom-media/upload/example.txt');
+        return { data: {}, status: 200, statusText: 'OK', headers: {}, config };
+      };
+
+      const response = await client.upload(new Blob(['test'], { type: 'text/plain' }), type, 'example.txt');
+      expect(response.status).equals(200);
     });
 
     it('test interceptorOptions', async function() {
