@@ -54,7 +54,11 @@ describe('MapIncludedInterceptor', function() {
     };
 
     const response = await interceptor.responseHandler(initialResponse);
+
     expect(response.formattedData).to.deep.equal(response.data);
+    expect(response.formattedData.data).to.not.equal(response.data.data);
+    response.formattedData.data[0].attributes.title = 'Changed';
+    expect(response.data.data[0].attributes.title).to.equal('User number one');
   });
 
   it('included', async function() {
@@ -89,6 +93,7 @@ describe('MapIncludedInterceptor', function() {
           attributes: {
             title: 'Profile image',
           },
+          meta: {},
         },
       ],
     };
@@ -106,7 +111,7 @@ describe('MapIncludedInterceptor', function() {
     const interceptor = new MapIncludedInterceptor();
     const response = await interceptor.responseHandler(initialResponse);
 
-    expect(response.formattedData).to.not.equal(response.data);
+    expect(response.formattedData).to.not.deep.equal(response.data);
     expect(response.formattedData.data[0].relationships.attach.data).to.deep.equal(data.included);
   });
 
@@ -186,6 +191,7 @@ describe('MapIncludedInterceptor', function() {
                     description: '',
                   },
                 },
+                meta: {},
               },
             ],
           },
@@ -308,6 +314,7 @@ describe('MapIncludedInterceptor', function() {
       ],
     };
 
+    const originalData = structuredClone(data);
     const initialResponse: AxiosResponse = {
       status: 200,
       statusText: 'ok',
@@ -342,6 +349,9 @@ describe('MapIncludedInterceptor', function() {
 
     expect(response.formattedData).to.not.equal(response.data);
     expect(response.formattedData.data).to.deep.equal(expectedData);
+    expect(response.data).to.deep.equal(originalData);
+    response.formattedData.data.attach[0].title = 'Changed';
+    expect(response.data).to.deep.equal(originalData);
   });
 
   it('flattened passed in interceptorOptions', async function() {
@@ -477,7 +487,8 @@ describe('MapIncludedInterceptor', function() {
     const interceptor = new MapIncludedInterceptor({ flatten: true });
     const response = await interceptor.responseHandler(initialResponse);
 
-    expect(response.formattedData.data).to.be.equal(response.data.data);
+    expect(response.formattedData.data).to.not.equal(response.data.data);
+    expect(response.formattedData.data).to.deep.equal(response.data.data);
     expect(response.data).to.deep.equal(expectedData);
   });
 });
