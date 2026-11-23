@@ -85,6 +85,7 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
    * ```
    *
    * It works also when `data` is an array of resources.
+   * Formatted data is independent of the original response data.
    *
    * @param response The response.
    */
@@ -94,11 +95,11 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
     }
 
     const responseData = response.data;
-    let { data } = responseData;
+    let data = structuredClone(responseData.data);
     const { included = false } = responseData;
 
     if (included !== false && included.length > 0) {
-      data = this.prepareData(data, included);
+      data = this.prepareData(data, structuredClone(included));
     }
 
     if (this.#config?.flatten || response.config?.interceptorOptions?.MapIncludedInterceptor?.flatten) {
@@ -164,7 +165,9 @@ export class MapIncludedInterceptor implements ResponseInterceptorInterface {
             data.attributes = { ...data.attributes, ...this.extractTranslatedFields(includedData) };
           }
 
-          return includedData || dItem;
+          return includedData
+            ? { ...includedData, meta: { ...includedData.meta, ...dItem.meta } }
+            : dItem;
         });
       }
 

@@ -409,7 +409,7 @@ export class BEditaApiClient {
 
   /**
    * Save a resource.
-   * If data contains `id` then it create new one resource
+   * If data doesn't contain `id` then it create new one resource
    * else it update existing resource.
    *
    * @param type The resource type
@@ -420,15 +420,16 @@ export class BEditaApiClient {
       throw new Error('Missing required type');
     }
 
-    const body: {data: JsonApiResourceObject} = { data: {type} };
-    const id: string|null = data?.id;
-    if (id) {
-      body.data.id = id;
-    }
-    delete data.id;
-    body.data.attributes = data;
+    const { id, ...attributes } = data
+    const body: {data: JsonApiResourceObject} = {
+      data: {
+        type,
+        attributes,
+      },
+    };
 
     if (id) {
+      body.data.id = id;
       return await this.patch(`${type}/${id}`, body);
     }
 
@@ -440,7 +441,7 @@ export class BEditaApiClient {
    * If no file name is passed then it tries to get it from File object.
    *
    * @param file File|Blob to upload
-   * @param type The resource type (streams, images, videos, files, audio)
+   * @param type The resource type (e.g. streams, images, videos, files, audio, or a custom type)
    * @param name The file name
    * @param config Optional request configuration
    */
