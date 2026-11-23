@@ -1,3 +1,17 @@
+# [4.2.0](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.1.2...v4.2.0) (2026-11-23)
+
+
+### Bug Fixes
+
+* clone data before formatting in map included interceptor ([d997c61](https://github.com/atlasconsulting/bedita-sdk-js/commit/d997c61d073913b260fa8b5694cc096a6f309924))
+* do not lost meta about relation params ([74a8a5d](https://github.com/atlasconsulting/bedita-sdk-js/commit/74a8a5df4bc6418adb446e4cdeeee017afec5e4f))
+* don't work on the data passed ([a01ff81](https://github.com/atlasconsulting/bedita-sdk-js/commit/a01ff814256121644d512fd14434b8aa6871237b))
+
+
+### Features
+
+* support custom media type in upload ([542f2b6](https://github.com/atlasconsulting/bedita-sdk-js/commit/542f2b65ee5d554b049f60bfa843cba9e02ac698))
+
 ## [4.1.2](https://github.com/atlasconsulting/bedita-sdk-js/compare/v4.1.1...v4.1.2) (2026-10-16)
 
 
